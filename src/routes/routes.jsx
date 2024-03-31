@@ -1,13 +1,15 @@
+
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Home from "../views/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../views/auth/Login";
-import Registration from "../views/auth/Registration";
 import ForgetPassword from "../views/auth/ForgetPassword";
 import CodeValidation from "../views/auth/CodeValidation";
 import NewPassword from "../views/auth/NewPassword";
 import UserLayout from "../layouts/UserLayout";
 import UserList from "../views/user/UserList";
+import Register from "../views/auth/Register";
+import Profile from "../views/user/Profile";
 
 
 const routes = createBrowserRouter([
@@ -29,7 +31,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: "/register",
-                element: <Registration />
+                element: <Register />
             },
             {
                 path: "/forget-password",
@@ -50,17 +52,21 @@ const routes = createBrowserRouter([
         element: <UserLayout/>,
         children: [
             {
-                path: "/user",
+                path: "/users",
                 element: <UserList/>
             },
             {
-                path: "/user/new",
+                path: "/users/new",
                 element: <UserList key={"New user"}/>
             
             },
             {
-                path: "/user/:id",
+                path: "/users/:id",
                 element: <UserList key={"Update user"}/>
+            },
+            {
+                path: "/profile",
+                element: <Profile/>
             }
         ]
     }
