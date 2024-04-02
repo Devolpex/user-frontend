@@ -10,6 +10,7 @@ import UserLayout from "../layouts/UserLayout";
 import UserList from "../views/user/UserList";
 import Register from "../views/auth/Register";
 import Profile from "../views/user/Profile";
+import UserEdit from "../views/user/UserEdit";
 
 
 const routes = createBrowserRouter([
@@ -52,17 +53,17 @@ const routes = createBrowserRouter([
         element: <UserLayout/>,
         children: [
             {
-                path: "/users",
+                path: "/clients",
                 element: <UserList/>
             },
             {
                 path: "/users/new",
-                element: <UserList key={"New user"}/>
+                element: <UserEdit key={"New user"}/>
             
             },
             {
                 path: "/users/:id",
-                element: <UserList key={"Update user"}/>
+                element: <UserEdit key={"Update user"}/>
             },
             {
                 path: "/profile",

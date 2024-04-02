@@ -1,70 +1,85 @@
-import {
-    Card,
-    Typography,
-    List,
-    ListItem,
-    ListItemPrefix,
-    ListItemSuffix,
-    Chip,
-  } from "@material-tailwind/react";
-  import {
-    PresentationChartBarIcon,
-    ShoppingBagIcon,
-    UserCircleIcon,
-    Cog6ToothIcon,
-    InboxIcon,
-    PowerIcon,
-  } from "@heroicons/react/24/solid";
-   
-  export function Sidebar() {
-    return (
-      <Card className="h-[calc(100vh-2rem)] w-2/6  max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-        <div className="mb-2 p-4">
-          <Typography variant="h5" color="blue-gray">
-            Sidebar
-          </Typography>
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+// import { Link, useLocation } from "react-router-dom";
+import { BiUser } from "react-icons/bi";
+// import { FiUsers } from "react-icons/fi";
+import { GoOrganization } from "react-icons/go";
+import { SiAwsorganizations } from "react-icons/si";
+import { MdWork } from "react-icons/md";
+import { PiUsersFourFill } from "react-icons/pi";
+import MenuLink from "../menu/MenuLink";
+
+// import { useStateContext } from "../../context/ContextProvider";
+
+function Sidebar() {
+  // const location = useLocation();
+  // const { user, token, role } = useStateContext();
+  // const roleInt = parseInt(role);
+
+  // const isActive = (route) => {
+  //   return location.pathname === route ? "bg-zinc-300 bg-opacity-50" : "";
+  // };
+
+  return (
+    <aside className="w-60 bg-gray-800 px-4">
+      <div className="h-20 flex items-center">
+        <div className="text-white text-lg font-bold font-['Roboto'] leading-normal">
+          Dashboard
         </div>
-        <List>
-          <ListItem>
-            <ListItemPrefix>
-              <PresentationChartBarIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Dashboard
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <ShoppingBagIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            E-Commerce
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <InboxIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Inbox
-            <ListItemSuffix>
-              <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-            </ListItemSuffix>
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Profile
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Settings
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <PowerIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Log Out
-          </ListItem>
-        </List>
-      </Card>
-    );
-  }
+      </div>
+
+      {/* {token && (
+        <div>
+          {role === "admin" && (
+            <>
+            <MenuLink route="/admins" label="Admins" icon={<BiUser color="white" />} top_vl="0" />
+            <MenuLink route="/employees" label="Employees" icon={<PiUsersFourFill color="white" />} top_vl="40px" />
+            <MenuLink route="/companies" label="Companies" icon={<GoOrganization color="white" />} top_vl="40px" />
+            <MenuLink route="/departes" label="Departes" icon={<SiAwsorganizations color="white" />} top_vl="40px" />
+            <MenuLink route="/jobs" label="Jobs" icon={<MdWork color="white" />} top_vl="40px" />
+          </>
+
+          )}
+          {role === "candidate"  && (
+            <MenuLink route="/resume" label="Resume" icon={<FiUsers color="white" />} top_vl="40px" />
+          )}
+
+        </div>
+      )} */}
+      <>
+        <MenuLink
+          route="/admins"
+          label="Admins"
+          icon={<BiUser color="white" />}
+          top_vl="0"
+        />
+        <MenuLink
+          route="/employees"
+          label="Employees"
+          icon={<PiUsersFourFill color="white" />}
+          top_vl="40px"
+        />
+        <MenuLink
+          route="/companies"
+          label="Companies"
+          icon={<GoOrganization color="white" />}
+          top_vl="40px"
+        />
+        <MenuLink
+          route="/departes"
+          label="Departes"
+          icon={<SiAwsorganizations color="white" />}
+          top_vl="40px"
+        />
+        <MenuLink
+          route="/jobs"
+          label="Jobs"
+          icon={<MdWork color="white" />}
+          top_vl="40px"
+        />
+      </>
+    </aside>
+  );
+}
+
+export default Sidebar;

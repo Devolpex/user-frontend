@@ -1,49 +1,58 @@
-import React from "react";
-import {
-  Navbar,
-  MobileNav,
-  Typography,
-  Button,
-  IconButton,
-} from "@material-tailwind/react";
-import { Bars2Icon } from "@heroicons/react/24/solid";
-import { NavList } from "../list/NavList";
-import { ProfileMenu } from "../menu/ProfileMenu";
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+// import axiosClient from "../../api/axios.js";
+// import { useStateContext } from "../../context/ContextProvider.jsx";
 
-export function ComplexNavbar() {
-  const [isNavOpen, setIsNavOpen] = React.useState(false);
+function Navbar() {
+  // const { setUser, user, _setToken, _setRole, userId } = useStateContext();
+  const navigate = useNavigate();
 
-  const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
+  // useEffect(() => {
+  //   axiosClient.get(`/admin/${userId}`).then(({ data }) => {
+  //     console.log("User data navbar", data);
+  //     setUser(data.user);
+  //   });
+  // }, []);
 
-  React.useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setIsNavOpen(false)
-    );
-  }, []);
+  // const onLogout = (ev) => {
+  //   ev.preventDefault();
+  //   setUser({});
+  //   _setToken(null);
+  //   _setRole(null);
+  //   navigate("/login");
+
+  //   // axiosClient.post("/logout").then(() => {
+  //   //   setUser({});
+  //   //   _setToken(null);
+  //   //   _setRole(null);
+  //   // });
+  // };
 
   return (
-    <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
-      <div className="relative mx-auto flex items-center justify-end text-blue-gray-900">
-        <div className="grid items-center justify-center">
-          <Typography
-            as="a"
-            href="#"
-            className="mr-4 ml-2 cursor-pointer  font-medium"
-          >
-            Marouane Dbibih
-          </Typography>
-          <Typography
-            as="a"
-            href="#"
-            className="mr-4 ml-2 cursor-pointer  font-medium "
-          >
-            marouane.dbibih@outlook.com
-          </Typography>
+    <header className="h-20 px-16 bg-white shadow-md flex justify-end items-center">
+      <div className="flex items-center gap-8">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col justify-center items-start gap-1">
+            <div className="text-neutral-800 text-sm font-bold font-['Roboto'] leading-[18.20px]">
+              {/* {`${user.name}`} */}
+            </div>
+            <div className="text-zinc-400 text-[10px] font-bold font-['Roboto'] leading-[13px]">
+              {/* {user.email} */}
+            </div>
+          </div>
         </div>
-
-        <ProfileMenu />
+        <button
+          // onClick={onLogout}
+          className="w-[75px] px-3.5 py-2 bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-lg shadow flex justify-center items-center gap-2"
+        >
+          <div className="text-white text-xs font-bold font-['Roboto'] uppercase leading-[18px]">
+            Logout
+          </div>
+        </button>
       </div>
-    </Navbar>
+    </header>
   );
 }
+
+export default Navbar;
