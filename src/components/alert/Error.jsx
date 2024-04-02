@@ -2,12 +2,12 @@
 import React from 'react'
 
 // eslint-disable-next-line react/prop-types
-function Success({message}) {
+function Error({message}) {
   return (
-    <div className="fixed right-4 bottom-4 z-50 p-4 bg-green-600 text-white rounded-md">
+    <div className="p-4 bg-red-600 text-white rounded-md my-2 w-1/2">
     {message}
   </div>
   )
 }
 
-export default Success
+export default Error

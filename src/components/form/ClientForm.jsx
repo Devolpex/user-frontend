@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axiosClient from "../../api/axios";
 import { useStateContext } from "../../context/ContextProvider.jsx";
+import Error from "../alert/Error.jsx";
 
 function ClientForm() {
   const navigate = useNavigate();
@@ -14,8 +15,8 @@ function ClientForm() {
     password: "",
     confirm_password: "",
   });
-  const [errors, setErrors] = useState(null);
-  const {_setSuccess} = useStateContext();
+  const [errors, setErrors] = useState([]);
+  const { _setSuccess } = useStateContext();
   const [loading, setLoading] = useState(false);
 
   // if (id) {
@@ -41,10 +42,9 @@ function ClientForm() {
     if (id) {
       axiosClient
         .put(`/users/${id}`, payload)
-        .then(({data}) => {
+        .then(({ data }) => {
           // console.log("Succes",data.success);
           // _setSuccess(data.success);
-
         })
         .catch((err) => {
           const response = err.response;
@@ -55,30 +55,31 @@ function ClientForm() {
       console.log("Payload:", payload);
       axiosClient
         .post("/users", payload)
-        .then(({data}) => {
+        .then(({ data }) => {
           // console.log("Response", response);
           _setSuccess(data.success);
           navigate("/clients");
         })
         .catch((err) => {
           setErrors(err.response.data.errors);
+          // console.log("Error",err.response.data.errors);
         });
     }
   };
 
   setTimeout(() => {
     setErrors(null);
-  }, 3000);
+  }, 10000);
 
   return (
     <>
-      {/* {errors && (
-        <div className="alert">
-          {errors.map((u) => (
-            <p>{u}</p>
+      {errors && (
+        <div className="fixed right-4 bottom-4 z-50 flex flex-col-reverse justify-end items-end space-y-4">
+          {errors.map((e) => (
+            <Error message={e} key={e} />
           ))}
         </div>
-      )} */}
+      )}
       <div className="w-full h-20  justify-between items-center inline-flex">
         <div className="text-black text-5xl font-bold font-['Roboto'] leading-[62.40px]">
           {id && (
@@ -159,14 +160,6 @@ function ClientForm() {
           </form>
         )}
       </div>
-      {errors && (
-        <div className="alert">
-          <p>Error</p>
-          {/* {errors.map((u) => (
-            <p>{u}</p>
-          ))} */}
-        </div>
-      )}
     </>
   );
 }

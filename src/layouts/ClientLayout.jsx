@@ -6,7 +6,7 @@ import Navbar from '../components/navbar/Navbar'
 import Success from '../components/alert/Success'
 import { useStateContext } from '../context/ContextProvider'
 
-function UserLayout() {
+function ClientLayout() {
   const {success} = useStateContext()
 
   return (
@@ -25,4 +25,4 @@ function UserLayout() {
   )
 }
 
-export default UserLayout
+export default ClientLayout;
