@@ -6,10 +6,11 @@ import Login from "../views/auth/Login";
 import ForgetPassword from "../views/auth/ForgetPassword";
 import CodeValidation from "../views/auth/CodeValidation";
 import NewPassword from "../views/auth/NewPassword";
-import UserLayout from "../layouts/UserLayout";
-import UserList from "../views/user/UserList";
 import Register from "../views/auth/Register";
-import Profile from "../views/user/Profile";
+import ClientLayout from "../layouts/ClientLayout";
+import ClientEdit from "../views/client/ClientEdit";
+import Profile from "../views/client/Profile";
+import ClientList from "../views/client/ClientList";
 
 
 const routes = createBrowserRouter([
@@ -49,20 +50,20 @@ const routes = createBrowserRouter([
     },
     {
         path: "/",
-        element: <UserLayout/>,
+        element: <ClientLayout/>,
         children: [
             {
-                path: "/users",
-                element: <UserList/>
+                path: "/clients",
+                element: <ClientList/>
             },
             {
-                path: "/users/new",
-                element: <UserList key={"New user"}/>
+                path: "/clients/new",
+                element: <ClientEdit key={"New user"}/>
             
             },
             {
-                path: "/users/:id",
-                element: <UserList key={"Update user"}/>
+                path: "/clients/:id",
+                element: <ClientEdit key={"Update user"}/>
             },
             {
                 path: "/profile",
