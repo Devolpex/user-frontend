@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import Error from "../../components/alert/Error";
-import Spinner from "../../components/Spinner";
 import axiosClient from "../../api/axios";
 import { useStateContext } from "../../context/ContextProvider.jsx";
+import Spinner from "../../components/spinner/Spinner.jsx";
 
 // Test json
 // eslint-disable-next-line no-unused-vars
@@ -107,7 +107,7 @@ function Login() {
           ))}
         </div>
       )}
-      {loading && <Spinner />}
+      {loading && <Spinner/>}
       <div className="w-full flex justify-center items-center">
         <div className="w-2/6 h-auto p-6 bg-white rounded-lg shadow flex-col justify-center items-center inline-flex gap-4">
           {/* Title & Description form */}

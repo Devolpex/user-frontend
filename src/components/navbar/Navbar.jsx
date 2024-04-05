@@ -33,12 +33,17 @@ function Navbar() {
     <header className="h-20 px-16 bg-white shadow-md flex justify-end items-center">
       <div className="flex items-center gap-8">
         <div className="flex items-center justify-between gap-4">
+          <img
+            className="w-10 h-10 rounded-[40px]"
+            // src={`${import.meta.env.VITE_API_BASE_URL}/${user.image}`}
+            src="https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg"
+          />
           <div className="flex flex-col justify-center items-start gap-1">
             <div className="text-neutral-800 text-sm font-bold font-['Roboto'] leading-[18.20px]">
-              {/* {`${user.name}`} */}
+              {/* {`${user.name} `} */} Marouane Dbibih
             </div>
             <div className="text-zinc-400 text-[10px] font-bold font-['Roboto'] leading-[13px]">
-              {/* {user.email} */}
+              {/* {user.email} */} marouane.dbibih@e-shop.com
             </div>
           </div>
         </div>

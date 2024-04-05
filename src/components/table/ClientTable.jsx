@@ -16,7 +16,7 @@ const headerTable = [
 
 function ClientTable({ clients, loading, onDeleteClick }) {
   return (
-    <div className=" bg-white rounded-2xl shadow p-8 animated fadeInDown w-10/12">
+    <div className=" bg-white rounded-2xl shadow p-8 animated fadeInDown w-full">
       <table className="w-full">
         <thead className="bg-light ">
           <tr className="">

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import Error from "../../components/alert/Error";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/spinner/Spinner.jsx";
 import axiosClient from "../../api/axios";
 import { useStateContext } from "../../context/ContextProvider.jsx";
 
