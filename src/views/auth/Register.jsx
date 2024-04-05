@@ -72,6 +72,17 @@ function Register() {
       });
   };
 
+  const onGoogle = (ev) => {
+    ev.preventDefault();
+    console.log("Google button clicked");
+  }
+
+  const onFacebook = (ev) => {
+    ev.preventDefault();
+    console.log("Facebook button clicked");
+    // Handle Facebook API here
+  };
+
   /**
    *   Response format:
    *   Check the file /test/json/
@@ -81,7 +92,7 @@ function Register() {
   /**
    * Tests Functions
    * test only one at time
-  */
+   */
 
   // useEffect(() => {
   //   setErrors(registerErrors.errors);
@@ -169,21 +180,26 @@ function Register() {
                 id="button"
                 className="flex flex-col justify-center items-center gap-2"
               >
-                <button className="self-stretch w-full px-5 py-2.5 bg-gray-800 rounded-lg shadow justify-center items-center gap-2 inline-flex hover:bg-gray-700 active:bg-gray-900">
+                <button
+                  type="submit"
+                  className="self-stretch w-full px-5 py-2.5 bg-gray-800 rounded-lg shadow justify-center items-center gap-2 inline-flex hover:bg-gray-700 active:bg-gray-900"
+                >
                   <div className="text-white text-sm font-bold font-['Roboto'] uppercase leading-[21px]">
                     Register
                   </div>
                 </button>
                 <button
                   className=" w-full align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex justify-center items-center gap-3"
-                  type="button"
+                  type="submit"
+                  onClick={onGoogle}
                 >
                   <FcGoogle className="w-6 h-6" />
                   Connect with Google
                 </button>
                 <button
                   className=" w-full align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-sm py-3.5 px-7 rounded-lg bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex justify-center items-center gap-3"
-                  type="button"
+                  type="click"
+                  onClick={onFacebook}
                 >
                   <FaFacebook className="w-6 h-6" />
                   Connect with Facebook
