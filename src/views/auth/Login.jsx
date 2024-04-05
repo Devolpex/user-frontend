@@ -186,7 +186,7 @@ function Login() {
                   {`You dont remember your password?`}{" "}
                 </p>
                 <Link
-                  to={"/rest-password"}
+                  to={`/rest-password`}
                   className="text-base font-bold font-['Roboto'] leading-7 text-gray-900"
                 >
                   Rest Password
