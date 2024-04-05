@@ -102,9 +102,8 @@ table {
 } */
 
 table > tbody > tr > td {
-  padding: 0.5rem 0.5rem;
+  padding: 1rem 0;
   height: 64px;
-  /* border-bottom: 1px solid #efefef; */
   white-space: nowrap;
 }
 
