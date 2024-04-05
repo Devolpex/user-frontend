@@ -13,7 +13,7 @@ function AuthNavbar() {
       case "/register":
         return { buttonText: "Login", route: "/login" };
       default:
-        return { buttonText: "Button", route: "/" }; // Default fallback route
+        return { buttonText: "Login", route: "/login" };
     }
   };
   const { buttonText, route } = getButtonInfo();
