@@ -10,7 +10,7 @@ import { useStateContext } from "../../context/ContextProvider.jsx";
 // Test json
 // eslint-disable-next-line no-unused-vars
 import registerErrors from "../../../test/json/errors/register.json";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [client, setClient] = useState({
@@ -75,7 +75,7 @@ function Register() {
   const onGoogle = (ev) => {
     ev.preventDefault();
     console.log("Google button clicked");
-  }
+  };
 
   const onFacebook = (ev) => {
     ev.preventDefault();
@@ -204,6 +204,12 @@ function Register() {
                   <FaFacebook className="w-6 h-6" />
                   Connect with Facebook
                 </button>
+              </div>
+              <div className="w-full flex justify-center items-center p-4 ">
+                <p className="mr-2 text-slate-500 text-base font-bold font-['Roboto'] leading-7">Already have an account? {" "}</p>
+                <Link to={"/login"} className="text-base font-bold font-['Roboto'] leading-7 text-gray-900">
+                   Sign In
+                </Link>
               </div>
             </form>
           </div>
