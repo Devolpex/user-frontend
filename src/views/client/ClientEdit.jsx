@@ -14,7 +14,7 @@ function ClientEdit() {
   return (
     <ClientFormContext>
       <div className="w-full flex justify-start items-center">
-        <HeaderClientForm idClient={idClient} />
+        <HeaderClientForm idClient={idClient}/>
       </div>
       <div className="flex justify-start items-start w-full gap-4">
         <ClientForm idClient={idClient}/>

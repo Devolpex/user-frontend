@@ -26,6 +26,7 @@ function ClientForm({idClient}) {
     }
   };
 
+
   setTimeout(() => {
     setErrors(null);
   }, 10000);
@@ -65,10 +66,11 @@ function ClientForm({idClient}) {
    * Test Functions
    */
 
-  // useEffect(() => {
-  //   _setClient(data.client);
-  //   console.log("Client Data Update",client);
-  // }, [_setClient])
+  useEffect(() => {
+    if (idClient) {
+      _setClient(data.client);
+    }
+  }, [idClient])
 
   return (
     <div className="w-1/2">
