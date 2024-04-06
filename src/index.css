@@ -93,13 +93,13 @@ table {
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
-}
+} */
 
-/* table > thead > tr > th {
+table > thead > tr > th {
   text-align: left;
   padding: 0.5rem 0.5rem;
   background-color: #efefef;
-} */
+}
 
 table > tbody > tr > td {
   padding: 1rem 0;

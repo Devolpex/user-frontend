@@ -4,8 +4,10 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import TableSpinner from "../spinner/TableSpinner";
+import CheckBox from "../inputs/CheckBox";
 
 const headerTable = [
+  "Select",
   "Client",
   "Phone",
   "Email",
@@ -17,12 +19,12 @@ const headerTable = [
 function ClientTable({ clients, loading, onDeleteClick }) {
   return (
     <div className=" bg-white rounded-2xl shadow p-8 animated fadeInDown w-full">
-      <table className="w-full">
+      <table className="">
         <thead className="bg-light ">
           <tr className="">
             {headerTable.map((header, index) => (
               <th key={index} className="  text-left">
-                {header}
+                {index === 0 ? <CheckBox /> : header}
               </th>
             ))}
           </tr>
@@ -30,8 +32,8 @@ function ClientTable({ clients, loading, onDeleteClick }) {
         {loading && (
           <tbody>
             <tr>
-              <td colSpan="6" className="text-center w-full">
-                <TableSpinner/>
+              <td colSpan="7" className="text-center w-full">
+                <TableSpinner />
               </td>
             </tr>
           </tbody>
@@ -41,6 +43,10 @@ function ClientTable({ clients, loading, onDeleteClick }) {
             {!loading &&
               clients.map((c, index) => (
                 <tr key={c.id} className="">
+                  <td>
+                    {" "}
+                    <CheckBox />
+                  </td>
                   <td className="">
                     <div className="flex justify-start items-center">
                       <img
@@ -58,14 +64,14 @@ function ClientTable({ clients, loading, onDeleteClick }) {
 
                   <td>{c.created_at}</td>
                   <td className="">
-                      {c.auth === "Google" ? (
-                        <FcGoogle className="w-6 h-6" />
-                      ) : c.auth === "Facebook" ? (
-                        <FaFacebook className="w-6 h-6" />
-                      ) : c.auth === "Email" ? (
-                        <MdEmail className="w-6 h-6" />
-                      ) : null}
-                    </td>
+                    {c.auth === "Google" ? (
+                      <FcGoogle className="w-6 h-6" />
+                    ) : c.auth === "Facebook" ? (
+                      <FaFacebook className="w-6 h-6" />
+                    ) : c.auth === "Email" ? (
+                      <MdEmail className="w-6 h-6" />
+                    ) : null}
+                  </td>
                   <td className="flex items-center">
                     <Link
                       to={"/users/update/" + c.id}
