@@ -9,6 +9,7 @@ import { useStateContext } from "../../context/ContextProvider";
 import ConfirmNotification from "../notifications/ConfirmNotification";
 import axiosClient from "../../api/axios";
 import Spinner from "../spinner/Spinner";
+import { useNavigate } from "react-router-dom";
 
 function ImageForm({ idClient }) {
   // const [imageUrl, setImageUrl] = useState(default_avatar);
