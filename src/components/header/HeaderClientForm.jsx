@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useClientContext } from "../../context/ClientContext";
 
 
+// eslint-disable-next-line react/prop-types
 function HeaderClientForm({idClient}) {
   const { client } = useClientContext();
   

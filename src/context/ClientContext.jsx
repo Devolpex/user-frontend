@@ -1,9 +1,12 @@
 import { createContext, useContext, useState } from "react";
+import default_avatar from "../assets/images/default-avatar.jpg";
 
 const StateContext = createContext({
     client: {},
     _setClient: () => { },
-    _restClient: () => { }
+    _restClient: () => { },
+    imageInput: default_avatar,
+    _setImageInput: () => { },
 
 });
 
@@ -25,8 +28,16 @@ export default function ClientContext({ children }) {
         email: "",
         password: "",
         confirm_password: "",
+        image:null
     });
     const [clients, setClients] = useState([]);
+    const [imageInput, setImageInput] = useState(null);
+
+
+
+    const _setImageInput = (data) => {
+        setImageInput(data);
+    }
 
     /**
      * 
@@ -57,7 +68,9 @@ export default function ClientContext({ children }) {
         <StateContext.Provider value={{
             client,
             _setClient,
-            _restClient
+            _restClient,
+            imageInput,
+            _setImageInput,
 
         }}>
             {children}

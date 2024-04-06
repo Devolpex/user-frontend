@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { useEffect, useState } from "react";
 import axiosClient from "../../api/axios";
 import { useStateContext } from "../../context/ContextProvider.jsx";
@@ -7,11 +7,11 @@ import data from "../../../test/data/clientUpdate.json";
 import { useClientContext } from "../../context/ClientContext.jsx";
 import Spinner from "../spinner/Spinner.jsx";
 
+// eslint-disable-next-line react/prop-types
 function ClientForm({idClient}) {
   const navigate = useNavigate();
   const { client, _setClient, _restClient } = useClientContext();
   const { _setSuccess } = useStateContext();
-
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -66,11 +66,11 @@ function ClientForm({idClient}) {
    * Test Functions
    */
 
-  useEffect(() => {
-    if (idClient) {
-      _setClient(data.client);
-    }
-  }, [idClient])
+  // useEffect(() => {
+  //   if (idClient) {
+  //     _setClient(data.client);
+  //   }
+  // }, [idClient])
 
   return (
     <div className="w-1/2">
