@@ -10,15 +10,16 @@ import axiosClient from "../../api/axios";
 import ConfirmNotification from "../../components/notifications/ConfirmNotification";
 import { useStateContext } from "../../context/ContextProvider";
 import Success from "../../components/alert/Success";
+import { useClientContext } from "../../context/ClientContext";
 
 function ClientList() {
-  const {success,_setSuccess} =useStateContext();
-  const [clients, setClients] = useState([]);
+  const { success, _setSuccess } = useStateContext();
+  const { clients, _setClients } = useClientContext();
   const [loading, setLoading] = useState(false);
 
   //current page and total pages is used for pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(3);
+  const [totalPages, setTotalPages] = useState(5);
   const carouselPages = 5;
 
   // Delete notification state and functions
@@ -67,8 +68,8 @@ function ClientList() {
     axiosClient
       .get(`/clinets?page=${page}`)
       .then(({ data }) => {
-        console.log("Clients", data);
-        setClients(data.clients);
+        // console.log("Clients", data);
+        _setClients(data.clients);
         setLoading(false);
         setTotalPages(data.totalPages);
       })
@@ -79,11 +80,11 @@ function ClientList() {
   };
 
   /**
-   * 
+   *
    * @param {bigint} id
    * When the user cliciks on the delete button in the table, the onDeleteClick function is called
    * this funstion open the Confirm Notification by change the value of state confirmNotification to true
-   * then set the deleteClientId to the id of the client that the user wants to delete 
+   * then set the deleteClientId to the id of the client that the user wants to delete
    */
   const onDeleteClick = (id) => {
     setConfirmNotification(true);
@@ -91,12 +92,12 @@ function ClientList() {
   };
 
   /**
-   * 
-   * @param {bigint} id 
+   *
+   * @param {bigint} id
    * This function is used to delete a client from the API
    * The client is deleted by calling the delete method on the axiosClient instance
    * then the getClients function is called to fetch the updated data from the API
-   * the success message is return from response of the API like this 
+   * the success message is return from response of the API like this
    * { "message": "Client deleted successfully"}
    */
   const deleteClient = (id) => {
@@ -109,13 +110,13 @@ function ClientList() {
       .catch((error) => {
         console.error(error);
       });
-  }
+  };
 
   // Test Data Functions
 
   // Get Clients
   useEffect(() => {
-    setClients(clientInfos);
+    _setClients(clientInfos);
   }, [clientInfos]);
   // console.log("Client Infos", clients);
 
@@ -128,9 +129,7 @@ function ClientList() {
           onConfirm={handleConfirm}
         />
       )}
-      {success && (
-        <Success message={success} />
-      )}
+      {success && <Success message={success} />}
       {/* Header section */}
       <Header title={"Manage Clients"} />
       {/* Serach and buttons section */}
@@ -158,7 +157,11 @@ function ClientList() {
         onDeleteClick={onDeleteClick}
       />
       {/* Pagination section */}
-      <Pagination currentPage={1} totalPages={10} setCurrentPage={() => {}} />
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }

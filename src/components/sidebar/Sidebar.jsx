@@ -24,7 +24,7 @@ function Sidebar() {
     <aside className="w-60 bg-gray-800 px-4">
       <div className="h-20 flex items-center">
         <div className="text-white text-lg font-bold font-['Roboto'] leading-normal">
-          Dashboard
+          E-Shop
         </div>
       </div>
 
@@ -54,12 +54,12 @@ function Sidebar() {
           top_vl="0"
         />
         <MenuLink
-          route="/employees"
-          label="Employees"
+          route="/clients"
+          label="Clients"
           icon={<PiUsersFourFill color="white" />}
           top_vl="40px"
         />
-        <MenuLink
+        {/* <MenuLink
           route="/companies"
           label="Companies"
           icon={<GoOrganization color="white" />}
@@ -76,7 +76,7 @@ function Sidebar() {
           label="Jobs"
           icon={<MdWork color="white" />}
           top_vl="40px"
-        />
+        /> */}
       </>
     </aside>
   );
