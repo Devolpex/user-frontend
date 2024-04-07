@@ -20,6 +20,7 @@ function ClientList() {
   //current page and total pages is used for pagination
   const [currentPage, setCurrentPage] = useState(3);
   const [totalPages, setTotalPages] = useState(5);
+  // eslint-disable-next-line no-unused-vars
   const carouselPages = 5;
 
   // Delete notification state and functions
@@ -54,7 +55,7 @@ function ClientList() {
    */
 
   // useEffect(() => {
-  //   getClients(currentPage);
+  //   displayClients(currentPage);
   // }, [currentPage]);
 
   /**
@@ -63,20 +64,9 @@ function ClientList() {
    * which are then set in the state.
    * Note: You must develop the error card to handle API errors.
    */
-  const getClients = (page) => {
+  const handleGetClients = (page) => {
     setLoading(true);
-    axiosClient
-      .get(`/clinets?page=${page}`)
-      .then(({ data }) => {
-        // console.log("Clients", data);
-        _setClients(data.clients);
-        setLoading(false);
-        setTotalPages(data.totalPages);
-      })
-      .catch(() => {
-        setLoading(false);
-        // Show error card
-      });
+    getClients(page);
   };
 
   /**
@@ -90,7 +80,47 @@ function ClientList() {
     setConfirmNotification(true);
     setDeleteClientId(id);
   };
+  /**
+   * 
+   * @param {string} searchTerm 
+   * @returns 
+   * This function is used to search for a client by calling the searchClient function
+   * The searchClient function is used to search for a client by calling the API
+   * onSearch is passed as a parameter to the SearchInput component
+   */
+  const onSearch = (searchTerm) => {
+    // console.log("Search:", searchTerm);
+    if (searchTerm === "") {
+      handleGetClients(currentPage);
+      return;
+    }
+    setLoading(true);
+    searchClient(searchTerm);
+  };
 
+  // Test Data Functions
+
+  // Get Clients
+  useEffect(() => {
+    _setClients(clientInfos);
+  }, [clientInfos]);
+  // console.log("Client Infos", clients);
+
+  // API functions
+  const getClients = (page) => {
+    axiosClient
+      .get(`/clinets?page=${page}`)
+      .then(({ data }) => {
+        // console.log("Clients", data);
+        _setClients(data.clients);
+        setLoading(false);
+        setTotalPages(data.totalPages);
+      })
+      .catch(() => {
+        setLoading(false);
+        // Show error card
+      });
+  };
   /**
    *
    * @param {bigint} id
@@ -104,21 +134,33 @@ function ClientList() {
     axiosClient
       .delete(`/clients/${id}`)
       .then(() => {
-        getClients(currentPage);
+        handleGetClients(currentPage);
         _setSuccess("Client deleted successfully");
       })
       .catch((error) => {
         console.error(error);
       });
   };
-
-  // Test Data Functions
-
-  // Get Clients
-  useEffect(() => {
-    _setClients(clientInfos);
-  }, [clientInfos]);
-  // console.log("Client Infos", clients);
+  /**
+   * 
+   * @param {string} term
+   * This function is used to sent api with term to search for a client
+   * Each term is typed in the search input is sent to the API
+   * this function is working like the getClients function
+   * She return the data of the clients that match the term and the meta data {total pages, current page}
+   */
+  const searchClient = (term) => {
+    axiosClient
+      .delete(`/clients/search/${term}`)
+      .then((data) => {
+        _setClients(data.clients);
+        setLoading(false);
+        setTotalPages(data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <div className="w-full flex flex-col justify-center items-center gap-8">
@@ -134,7 +176,7 @@ function ClientList() {
       <Header title={"Manage Clients"} />
       {/* Serach and buttons section */}
       <div className="w-full py-4 flex justify-between items-center">
-        <SearchInput />
+        <SearchInput onSearch={onSearch} />
         <div className="flex justify-center items-center gap-2">
           <button
             type="button"
