@@ -62,7 +62,7 @@ const routes = createBrowserRouter([
             
             },
             {
-                path: "/clients/edit/:id",
+                path: "/clients/update/:id",
                 element: <ClientEdit key={"Update user"}/>
             },
             {

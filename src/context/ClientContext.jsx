@@ -7,9 +7,11 @@ const StateContext = createContext({
     _restClient: () => { },
     imageInput: default_avatar,
     _setImageInput: () => { },
-
+    clients: [],
+    _setClients: () => { }
 });
 
+// eslint-disable-next-line react/prop-types
 export default function ClientContext({ children }) {
     /**
      * This state is shared between all the components that are wrapped by the ClientContext (ClientLayout.jsx)
@@ -64,6 +66,10 @@ export default function ClientContext({ children }) {
             confirm_password: "",
         });
     }
+
+    const _setClients = (data) => {
+        setClients(data);
+    }
     return (
         <StateContext.Provider value={{
             client,
@@ -71,7 +77,8 @@ export default function ClientContext({ children }) {
             _restClient,
             imageInput,
             _setImageInput,
-
+            clients,
+            _setClients
         }}>
             {children}
         </StateContext.Provider>

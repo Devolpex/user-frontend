@@ -82,7 +82,7 @@ function ClientTable({ clients, loading, onDeleteClick }) {
                       </div>
                     </Link>
                     <Link
-                      to={"/users/update/" + c.id}
+                      to={"/clients/update/" + c.id}
                       className="w-auto px-3.5 py-2 mr-2 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 rounded-lg shadow justify-center items-center gap-2 flex"
                     >
                       <div className="text-white text-xs font-bold font-['Roboto'] uppercase leading-[18px]">

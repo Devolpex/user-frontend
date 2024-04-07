@@ -10,15 +10,17 @@ import axiosClient from "../../api/axios";
 import ConfirmNotification from "../../components/notifications/ConfirmNotification";
 import { useStateContext } from "../../context/ContextProvider";
 import Success from "../../components/alert/Success";
+import { useClientContext } from "../../context/ClientContext";
 
 function ClientList() {
-  const {success,_setSuccess} =useStateContext();
-  const [clients, setClients] = useState([]);
+  const { success, _setSuccess } = useStateContext();
+  const { clients, _setClients } = useClientContext();
   const [loading, setLoading] = useState(false);
 
   //current page and total pages is used for pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(3);
+  const [totalPages, setTotalPages] = useState(5);
+  // eslint-disable-next-line no-unused-vars
   const carouselPages = 5;
 
   // Delete notification state and functions
@@ -53,7 +55,7 @@ function ClientList() {
    */
 
   // useEffect(() => {
-  //   getClients(currentPage);
+  //   displayClients(currentPage);
   // }, [currentPage]);
 
   /**
@@ -62,13 +64,55 @@ function ClientList() {
    * which are then set in the state.
    * Note: You must develop the error card to handle API errors.
    */
-  const getClients = (page) => {
+  const handleGetClients = (page) => {
     setLoading(true);
+    getClients(page);
+  };
+
+  /**
+   *
+   * @param {bigint} id
+   * When the user cliciks on the delete button in the table, the onDeleteClick function is called
+   * this funstion open the Confirm Notification by change the value of state confirmNotification to true
+   * then set the deleteClientId to the id of the client that the user wants to delete
+   */
+  const onDeleteClick = (id) => {
+    setConfirmNotification(true);
+    setDeleteClientId(id);
+  };
+  /**
+   * 
+   * @param {string} searchTerm 
+   * @returns 
+   * This function is used to search for a client by calling the searchClient function
+   * The searchClient function is used to search for a client by calling the API
+   * onSearch is passed as a parameter to the SearchInput component
+   */
+  const onSearch = (searchTerm) => {
+    // console.log("Search:", searchTerm);
+    if (searchTerm === "") {
+      handleGetClients(currentPage);
+      return;
+    }
+    setLoading(true);
+    searchClient(searchTerm);
+  };
+
+  // Test Data Functions
+
+  // Get Clients
+  useEffect(() => {
+    _setClients(clientInfos);
+  }, [clientInfos]);
+  // console.log("Client Infos", clients);
+
+  // API functions
+  const getClients = (page) => {
     axiosClient
       .get(`/clinets?page=${page}`)
       .then(({ data }) => {
-        console.log("Clients", data);
-        setClients(data.clients);
+        // console.log("Clients", data);
+        _setClients(data.clients);
         setLoading(false);
         setTotalPages(data.totalPages);
       })
@@ -77,47 +121,46 @@ function ClientList() {
         // Show error card
       });
   };
-
   /**
-   * 
+   *
    * @param {bigint} id
-   * When the user cliciks on the delete button in the table, the onDeleteClick function is called
-   * this funstion open the Confirm Notification by change the value of state confirmNotification to true
-   * then set the deleteClientId to the id of the client that the user wants to delete 
-   */
-  const onDeleteClick = (id) => {
-    setConfirmNotification(true);
-    setDeleteClientId(id);
-  };
-
-  /**
-   * 
-   * @param {bigint} id 
    * This function is used to delete a client from the API
    * The client is deleted by calling the delete method on the axiosClient instance
    * then the getClients function is called to fetch the updated data from the API
-   * the success message is return from response of the API like this 
+   * the success message is return from response of the API like this
    * { "message": "Client deleted successfully"}
    */
   const deleteClient = (id) => {
     axiosClient
       .delete(`/clients/${id}`)
       .then(() => {
-        getClients(currentPage);
+        handleGetClients(currentPage);
         _setSuccess("Client deleted successfully");
       })
       .catch((error) => {
         console.error(error);
       });
-  }
-
-  // Test Data Functions
-
-  // Get Clients
-  useEffect(() => {
-    setClients(clientInfos);
-  }, [clientInfos]);
-  // console.log("Client Infos", clients);
+  };
+  /**
+   * 
+   * @param {string} term
+   * This function is used to sent api with term to search for a client
+   * Each term is typed in the search input is sent to the API
+   * this function is working like the getClients function
+   * She return the data of the clients that match the term and the meta data {total pages, current page}
+   */
+  const searchClient = (term) => {
+    axiosClient
+      .delete(`/clients/search/${term}`)
+      .then((data) => {
+        _setClients(data.clients);
+        setLoading(false);
+        setTotalPages(data.totalPages);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <div className="w-full flex flex-col justify-center items-center gap-8">
@@ -128,14 +171,12 @@ function ClientList() {
           onConfirm={handleConfirm}
         />
       )}
-      {success && (
-        <Success message={success} />
-      )}
+      {success && <Success message={success} />}
       {/* Header section */}
       <Header title={"Manage Clients"} />
       {/* Serach and buttons section */}
       <div className="w-full py-4 flex justify-between items-center">
-        <SearchInput />
+        <SearchInput onSearch={onSearch} />
         <div className="flex justify-center items-center gap-2">
           <button
             type="button"
@@ -158,7 +199,11 @@ function ClientList() {
         onDeleteClick={onDeleteClick}
       />
       {/* Pagination section */}
-      <Pagination currentPage={1} totalPages={10} setCurrentPage={() => {}} />
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
