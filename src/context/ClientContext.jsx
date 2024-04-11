@@ -24,8 +24,8 @@ export default function ClientContext({ children }) {
      */
     const [client, setClient] = useState({
         id: null,
-        last_name: "",
-        first_name: "",
+        lastname: "",
+        firstname: "",
         phone: "",
         email: "",
         password: "",

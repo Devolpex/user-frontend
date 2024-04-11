@@ -21,7 +21,7 @@ const StateContext = createContext({
 // eslint-disable-next-line react/prop-types
 export default function ContextProvider({ children }) {
     const [user, setUser] = useState({});
-    const [token, setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
+    const [token, setToken] = useState(localStorage.getItem('JWT_TOKEN'));
     const [role, setRole] = useState(localStorage.getItem('ACCESS_ROLE'));
     const [userId, setUserId] = useState(localStorage.getItem('USER_ID'));
     const [notification, _setNotification] = useState('');
@@ -31,9 +31,9 @@ export default function ContextProvider({ children }) {
     const _setToken = (token) => {
         setToken(token);
         if (token) {
-            localStorage.setItem('ACCESS_TOKEN',token);
+            localStorage.setItem('JWT_TOKEN',token);
         } else {
-            localStorage.removeItem('ACCESS_TOKEN');
+            localStorage.removeItem('JWT_TOKEN');
         }
     }
     const _setRole = (role) => {

@@ -9,8 +9,10 @@ const axiosClient = axios.create({
 
 
 axiosClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem('ACCESS_TOKEN');
-    config.headers.Authorization = `Bearer ${token}`
+    const token = localStorage.getItem('JWT_TOKEN');
+    if (token != null) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config;
 })
 
@@ -19,7 +21,7 @@ axiosClient.interceptors.response.use((response) => {
 }, (error) => {
   const {response} = error;
   if (response.status === 401) {
-    localStorage.removeItem('ACCESS_TOKEN')
+    localStorage.removeItem('JWT_TOKEN')
     // window.location.reload();
   } else if (response.status === 404) {
     //Show not found

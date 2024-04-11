@@ -34,7 +34,7 @@ function ClientForm({idClient}) {
   // API Functions
   const postClient = (payload) => {
     axiosClient
-      .post("/client", payload)
+      .post("/clients", payload)
       .then(({ data }) => {
         _setSuccess(data.success);
         navigate("/clients");
@@ -90,7 +90,7 @@ function ClientForm({idClient}) {
               <input
                 value={client.first_name}
                 onChange={(ev) =>
-                  _setClient({ ...client, first_name: ev.target.value })
+                  _setClient({ ...client, firstname: ev.target.value })
                 }
                 placeholder="Enter the client first name"
                 className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
@@ -98,7 +98,7 @@ function ClientForm({idClient}) {
               <input
                 value={client.last_name}
                 onChange={(ev) =>
-                  _setClient({ ...client, last_name: ev.target.value })
+                  _setClient({ ...client, lastname: ev.target.value })
                 }
                 placeholder="Enter the client last name"
                 className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"

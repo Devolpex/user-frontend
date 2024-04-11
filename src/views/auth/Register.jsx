@@ -14,8 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [client, setClient] = useState({
-    last_name: "",
-    first_name: "",
+    lastname: "",
+    firstname: "",
     email: "",
     phone: "",
     password: "",
@@ -24,7 +24,7 @@ function Register() {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState();
   // import the function _setSuccess from the context
-  const { _setSuccess } = useStateContext();
+  const { _setSuccess ,_setToken} = useStateContext();
   /**
    * useNavigate is a function from react-router-dom
    * used to redirect to another page
@@ -44,33 +44,41 @@ function Register() {
      * this function sent the request to the api
      * and get the response
      *
-     * the url of api EX: http://localhost:50000 is configure by defautl into axios.js file
+     * the url of api EX: http://localhost:5000 is configure by defautl into axios.js file
      * you just need to put the endpoint of the api EX: /register,/clients?page=3
      * ?page=3 is a query parameter
      * always check the response object by console,log(response) for see the response format
      */
-    axiosClient
-      .post("/register", payload)
-      // {data } is shortcut of response.data
-      .then(({ data }) => {
-        // console.log("Response", response);
-        setLoading(false);
-        /**
-         * _setSuccess is a function from the context
-         * used to store data at a high level and share it between components.
-         *
-         * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
-         * You can retrieve this message from the context.
-         */
-        _setSuccess(data.success);
-        // /client is the routes of client list page in frontend check /src/routes/routes.jsx file
-        navigate("/clients");
-      })
-      .catch((err) => {
-        setErrors(err.response.data.errors);
-        // console.log("Error",err.response.data.errors);
-      });
+    registerApi(payload);
+
   };
+
+  const registerApi = (payload)=>{
+    axiosClient
+    .post("/auth/register", payload)
+    // {data } is shortcut of response.data
+    .then(({data}) => {
+
+      /**
+       * _setSuccess is a function from the context
+       * used to store data at a high level and share it between components.
+       *
+       * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
+       * You can retrieve this message from the context.
+       */
+      _setSuccess(data.success);
+      _setToken(data.token)
+      // /client is the routes of client list page in frontend check /src/routes/routes.jsx file
+      navigate("/clients");
+      setLoading(false);
+      // console.log("Response", response);
+    })
+    .catch((err) => {
+      setErrors(err.response.data.errors);
+      // console.log("Error",err.response.data.errors);
+    });
+
+  }
 
   const onGoogle = (ev) => {
     ev.preventDefault();
@@ -129,7 +137,7 @@ function Register() {
                   <input
                     value={client.first_name}
                     onChange={(ev) =>
-                      setClient({ ...client, first_name: ev.target.value })
+                      setClient({ ...client, firstname: ev.target.value })
                     }
                     placeholder="First name"
                     className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
@@ -137,7 +145,7 @@ function Register() {
                   <input
                     value={client.last_name}
                     onChange={(ev) =>
-                      setClient({ ...client, last_name: ev.target.value })
+                      setClient({ ...client, lastname: ev.target.value })
                     }
                     placeholder="Last name"
                     className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
