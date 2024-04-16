@@ -11,17 +11,23 @@ import { useStateContext } from "../../context/ContextProvider.jsx";
 // eslint-disable-next-line no-unused-vars
 import registerErrors from "../../../test/json/errors/register.json";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Success from "../../components/alert/Success.jsx";
+import { useAuthContext } from "../../context/AuthContext.jsx";
 
 function CodeValidation() {
-  const [credentials, setCredentials] = useState({
+  // const [credentials, setCredentials] = useState({
+  //   code: "",
+  // });
+  const {credentials,_setCredentials} = useAuthContext();
+  const [codeValidation,setCodeValidation] = useState({
     code: "",
+    email: credentials.email
   });
-  
 
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState();
   // import the function _setSuccess from the context
-  const { _setSuccess } = useStateContext();
+  const { _setSuccess,success } = useStateContext();
   /**
    * useNavigate is a function from react-router-dom
    * used to redirect to another page
@@ -33,8 +39,8 @@ function CodeValidation() {
     ev.preventDefault();
     setLoading(true);
     // set the credentials object into the payload {body of request} for sent to the api
-    const payload = { ...credentials };
-    console.log("Payload:", payload);
+    const payload = { ...codeValidation };
+    // console.log("Payload:", payload);
 
     /**
      * axios function create by defautl into axios.js file
@@ -46,28 +52,37 @@ function CodeValidation() {
      * ?page=3 is a query parameter
      * always check the response object by console,log(response) for see the response format
      */
-    axiosClient
-      .post("/rest-password", payload)
-      // {data } is shortcut of response.data
-      .then(({ data }) => {
-        // console.log("Response", response);
-        setLoading(false);
-        /**
-         * _setSuccess is a function from the context
-         * used to store data at a high level and share it between components.
-         *
-         * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
-         * You can retrieve this message from the context.
-         */
-        _setSuccess(data.success);
-        // //code-validation is the routes of client list page in frontend check /src/routes/routes.jsx file
-        navigate("/new-password");
-      })
-      .catch((err) => {
-        setErrors(err.response.data.errors);
-        // console.log("Error",err.response.data.errors);
-      });
+    codeValidationApi(payload);
   };
+
+  const codeValidationApi = (payload) => {
+    axiosClient
+    .post("/auth/psswd/code-validation", payload)
+    // {data } is shortcut of response.data
+    .then(({ data }) => {
+      // console.log("Response", response);
+      setLoading(false);
+      /**
+       * _setSuccess is a function from the context
+       * used to store data at a high level and share it between components.
+       *
+       * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
+       * You can retrieve this message from the context.
+       */
+      _setSuccess(data.success);
+      // //code-validation is the routes of client list page in frontend check /src/routes/routes.jsx file
+      navigate(data.redirectTo);
+      _setCredentials({
+        ...credentials,
+        email: data.email,
+      });
+    })
+    .catch((err) => {
+      setErrors(err.response.data.errors);
+      setLoading(false);
+      // console.log("Error",err.response.data.errors);
+    });
+  }
 
   /**
    *   Response format:
@@ -97,6 +112,8 @@ function CodeValidation() {
           ))}
         </div>
       )}
+      {success && <Success message={success} />}
+
       {loading && <Spinner />}
       <div className="w-full flex justify-center items-center">
         <div className="w-2/6 h-auto p-6 bg-white rounded-lg shadow flex-col justify-center items-center inline-flex gap-4">
@@ -108,13 +125,16 @@ function CodeValidation() {
             <div className="w-full text-start text-slate-500 text-base font-bold font-['Roboto'] leading-7">
               Enter your code to set up new password.
             </div>
+            <div className="w-full text-start text-slate-500 text-base font-bold font-['Roboto'] leading-7">
+              {credentials.email}
+            </div>
             {/* Form inputs */}
             <form className="w-full" onSubmit={onSubmit}>
               <div id="inputs" className="">
                 <input
                   value={credentials.code}
                   onChange={(ev) =>
-                    setCredentials({ ...credentials, code: ev.target.value })
+                    setCodeValidation({ ...codeValidation, code: ev.target.value })
                   }
                   placeholder="Enter your code validation"
                   className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"

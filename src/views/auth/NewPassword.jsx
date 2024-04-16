@@ -11,17 +11,22 @@ import { useStateContext } from "../../context/ContextProvider.jsx";
 // eslint-disable-next-line no-unused-vars
 import registerErrors from "../../../test/json/errors/register.json";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Success from "../../components/alert/Success.jsx";
+import { useAuthContext } from "../../context/AuthContext.jsx";
 
 function NewPassword() {
-  const [credentials, setCredentials] = useState({
-    new_password: "",
+  const {_setCredentials,credentials} = useAuthContext();
+
+  const [newPasswordCredentials, setNewPasswordCredentials] = useState({
+    password: "",
     confirm_password: "",
+    email: credentials.email
   });
 
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState();
   // import the function _setSuccess from the context
-  const { _setSuccess } = useStateContext();
+  const { _setSuccess,success } = useStateContext();
   /**
    * useNavigate is a function from react-router-dom
    * used to redirect to another page
@@ -33,7 +38,7 @@ function NewPassword() {
     ev.preventDefault();
     setLoading(true);
     // set the credentials object into the payload {body of request} for sent to the api
-    const payload = { ...credentials };
+    const payload = { ...newPasswordCredentials };
     console.log("Payload:", payload);
 
     /**
@@ -46,28 +51,33 @@ function NewPassword() {
      * ?page=3 is a query parameter
      * always check the response object by console,log(response) for see the response format
      */
-    axiosClient
-      .post("/rest-password", payload)
-      // {data } is shortcut of response.data
-      .then(({ data }) => {
-        // console.log("Response", response);
-        setLoading(false);
-        /**
-         * _setSuccess is a function from the context
-         * used to store data at a high level and share it between components.
-         *
-         * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
-         * You can retrieve this message from the context.
-         */
-        _setSuccess(data.success);
-        // //code-validation is the routes of client list page in frontend check /src/routes/routes.jsx file
-        navigate("/login");
-      })
-      .catch((err) => {
-        setErrors(err.response.data.errors);
-        // console.log("Error",err.response.data.errors);
-      });
+    newPasswordApi(payload);
+
   };
+
+  const newPasswordApi = (payload) => {
+    axiosClient
+    .post("/auth/psswd/new-password", payload)
+    // {data } is shortcut of response.data
+    .then(({ data }) => {
+      // console.log("Response", response);
+      setLoading(false);
+      /**
+       * _setSuccess is a function from the context
+       * used to store data at a high level and share it between components.
+       *
+       * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
+       * You can retrieve this message from the context.
+       */
+      _setSuccess(data.success);
+      // //code-validation is the routes of client list page in frontend check /src/routes/routes.jsx file
+      navigate(data.redirectTo);
+    })
+    .catch((err) => {
+      setErrors(err.response.data.errors);
+      // console.log("Error",err.response.data.errors);
+    });
+  }
 
   /**
    *   Response format:
@@ -97,6 +107,8 @@ function NewPassword() {
           ))}
         </div>
       )}
+      {success && <Success message={success} />}
+
       {loading && <Spinner />}
       <div className="w-full flex justify-center items-center">
         <div className="w-2/6 h-auto p-6 bg-white rounded-lg shadow flex-col justify-center items-center inline-flex gap-4">
@@ -112,21 +124,21 @@ function NewPassword() {
             <form className="w-full" onSubmit={onSubmit}>
               <div id="inputs" className="">
                 <input
-                  value={credentials.code}
+                  value={newPasswordCredentials.password}
                   onChange={(ev) =>
-                    setCredentials({
-                      ...credentials,
-                      new_password: ev.target.value,
+                    setNewPasswordCredentials({
+                      ...newPasswordCredentials,
+                      password: ev.target.value,
                     })
                   }
                   placeholder="Enter your new password"
                   className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
                 />
                 <input
-                  value={credentials.confirm_password}
+                  value={newPasswordCredentials.confirm_password}
                   onChange={(ev) =>
-                    setCredentials({
-                      ...credentials,
+                    setNewPasswordCredentials({
+                      ...newPasswordCredentials,
                       confirm_password: ev.target.value,
                     })
                   }

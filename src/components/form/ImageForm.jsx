@@ -53,7 +53,13 @@ function ImageForm({ idClient }) {
   const handleConfirm = () => {
     setConfirmNotification(false);
     setLoading(true);
-    postImage(imageInput);
+    const payload = {
+      picture: imageInput,
+    };
+    
+    console.log("Payload Profile Picture : ", payload)
+
+    postImage(payload);
     // _setSuccess("Image saved successfully");
   };
 
@@ -84,9 +90,10 @@ function ImageForm({ idClient }) {
    * The API return respone jsone with the success message.
    * {"succed":"Image saved successfully"}
    */
-  const postImage = async (image) => {
-    axiosClient.post("/clients/profile-picture", image).then((response) => {
+  const postImage = async (payload) => {
+    axiosClient.post(`/clients/profile-picture?id=${idClient}`, payload).then(({data}) => {
       setLoading(false);
+      _setSuccess(data.success);
       navigate("/clients");
     })
     .catch((err) => {
