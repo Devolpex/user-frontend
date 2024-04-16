@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import { Outlet } from "react-router";
+import { Outlet,Navigate } from "react-router";
 import Sidebar from "../components/sidebar/Sidebar";
 import Navbar from "../components/navbar/Navbar";
 import Success from "../components/alert/Success";
@@ -8,8 +8,11 @@ import { useStateContext } from "../context/ContextProvider";
 import ClientContext from "../context/ClientContext";
 
 function ClientLayout() {
-  const { success } = useStateContext();
+  const { success,role,token } = useStateContext();
 
+  if (!token || role !== "ADMIN") {
+    return <Navigate to="/login" />;
+  }
   return (
     <div className="flex min-h-screen">
       <Sidebar />

@@ -10,18 +10,17 @@ import { useStateContext } from "../../context/ContextProvider.jsx";
 // Test json
 // eslint-disable-next-line no-unused-vars
 import registerErrors from "../../../test/json/errors/register.json";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext.jsx";
+import Success from "../../components/alert/Success.jsx";
 
 function RestPassword() {
-  const [credentials, setCredentials] = useState({
-    email: "",
-  });
-  let { email } = useParams();
+  const { _setCredentials, credentials } = useAuthContext();
 
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState();
   // import the function _setSuccess from the context
-  const { _setSuccess } = useStateContext();
+  const { _setSuccess,success } = useStateContext();
   /**
    * useNavigate is a function from react-router-dom
    * used to redirect to another page
@@ -34,8 +33,11 @@ function RestPassword() {
     setLoading(true);
     // set the credentials object into the payload {body of request} for sent to the api
     const payload = { ...credentials };
-    console.log("Payload:", payload);
+    // console.log("Payload:", payload);
+    forgetPasswordApi(payload);
+  };
 
+  const forgetPasswordApi = (payload) => {
     /**
      * axios function create by defautl into axios.js file
      * this function sent the request to the api
@@ -47,7 +49,7 @@ function RestPassword() {
      * always check the response object by console,log(response) for see the response format
      */
     axiosClient
-      .post("/rest-password", payload)
+      .post("/auth/psswd/forget-password", payload)
       // {data } is shortcut of response.data
       .then(({ data }) => {
         // console.log("Response", response);
@@ -60,11 +62,14 @@ function RestPassword() {
          * You can retrieve this message from the context.
          */
         _setSuccess(data.success);
+        console.log("Data", data);
+
         // //code-validation is the routes of client list page in frontend check /src/routes/routes.jsx file
-        navigate("/code-validation");
+        navigate(data.redirectTo);
       })
       .catch((err) => {
         setErrors(err.response.data.errors);
+        setLoading(false);
         // console.log("Error",err.response.data.errors);
       });
   };
@@ -97,6 +102,7 @@ function RestPassword() {
           ))}
         </div>
       )}
+      {success && <Success message={success} />}
       {loading && <Spinner />}
       <div className="w-full flex justify-center items-center">
         <div className="w-2/6 h-auto p-6 bg-white rounded-lg shadow flex-col justify-center items-center inline-flex gap-4">
@@ -114,7 +120,7 @@ function RestPassword() {
                 <input
                   value={credentials.email}
                   onChange={(ev) =>
-                    setCredentials({ ...credentials, email: ev.target.value })
+                    _setCredentials({ ...credentials, email: ev.target.value })
                   }
                   placeholder="Email"
                   className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"

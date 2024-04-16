@@ -18,7 +18,10 @@ function ClientEdit() {
       </div>
       <div className="flex justify-start items-start w-full gap-4">
         <ClientForm idClient={idClient}/>
-        <ImageForm idClient={idClient} />
+        {
+          idClient ? <ImageForm idClient={idClient} /> : null
+        }
+      
       </div>
     </ClientFormContext>
   );

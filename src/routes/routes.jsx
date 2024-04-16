@@ -11,6 +11,7 @@ import ClientEdit from "../views/client/ClientEdit";
 import Profile from "../views/client/Profile";
 import ClientList from "../views/client/ClientList";
 import RestPassword from "../views/auth/RestPassword";
+import UserLayout from "../layouts/UserLayout";
 
 
 const routes = createBrowserRouter([
@@ -65,6 +66,12 @@ const routes = createBrowserRouter([
                 path: "/clients/update/:id",
                 element: <ClientEdit key={"Update user"}/>
             },
+        ]
+    },
+    {
+        path: "/",
+        element: <UserLayout/>,
+        children: [
             {
                 path: "/profile",
                 element: <Profile/>

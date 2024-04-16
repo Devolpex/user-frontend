@@ -8,12 +8,12 @@ function Navbar() {
   // const { setUser, user, _setToken, _setRole, userId } = useStateContext();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   axiosClient.get(`/admin/${userId}`).then(({ data }) => {
-  //     console.log("User data navbar", data);
-  //     setUser(data.user);
-  //   });
-  // }, []);
+  useEffect(() => {
+    // axiosClient.get(`/admin/${userId}`).then(({ data }) => {
+    //   console.log("User data navbar", data);
+    //   setUser(data.user);
+    // });
+  }, []);
 
   // const onLogout = (ev) => {
   //   ev.preventDefault();

@@ -103,7 +103,7 @@ function ClientList() {
   // Get Clients
   useEffect(() => {
     _setClients(clientInfos);
-  }, [clientInfos]);
+  }, [clientInfos, _setClients]);
   // console.log("Client Infos", clients);
 
   // API functions

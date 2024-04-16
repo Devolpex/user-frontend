@@ -11,16 +11,16 @@ import Spinner from "../../components/spinner/Spinner.jsx";
 // eslint-disable-next-line no-unused-vars
 import registerErrors from "../../../test/json/errors/register.json";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext.jsx";
+import Success from "../../components/alert/Success.jsx";
 
 function Login() {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
+  const { credentials, _setCredentials } = useAuthContext();
+
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState();
   // import the function _setSuccess from the context
-  const { _setSuccess } = useStateContext();
+  const { _setSuccess,success,_setRole,_setToken } = useStateContext();
   /**
    * useNavigate is a function from react-router-dom
    * used to redirect to another page
@@ -45,28 +45,35 @@ function Login() {
      * ?page=3 is a query parameter
      * always check the response object by console,log(response) for see the response format
      */
-    axiosClient
-      .post("/register", payload)
-      // {data } is shortcut of response.data
-      .then(({ data }) => {
-        // console.log("Response", response);
-        setLoading(false);
-        /**
-         * _setSuccess is a function from the context
-         * used to store data at a high level and share it between components.
-         *
-         * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
-         * You can retrieve this message from the context.
-         */
-        _setSuccess(data.success);
-        // /profile is the routes of client list page in frontend check /src/routes/routes.jsx file
-        navigate("/profile");
-      })
-      .catch((err) => {
-        setErrors(err.response.data.errors);
-        // console.log("Error",err.response.data.errors);
-      });
+    loginApi(payload);
   };
+
+  const loginApi =(payload)=>{
+    axiosClient
+    .post("/auth/login", payload)
+    // {data } is shortcut of response.data
+    .then(({ data }) => {
+      console.log("Login Response Data ", data);
+      setLoading(false);
+      /**
+       * _setSuccess is a function from the context
+       * used to store data at a high level and share it between components.
+       *
+       * Example: If a user is created, the application redirects you to a new page (component) to display the success message.
+       * You can retrieve this message from the context.
+       */
+      _setSuccess(data.success);
+      _setToken(data.token);
+      _setRole(data.role);
+      // /profile is the routes of client list page in frontend check /src/routes/routes.jsx file
+      navigate(data.redirectTo);
+
+    })
+    .catch((err) => {
+      setErrors(err.response.data.errors);
+      // console.log("Error",err.response.data.errors);
+    });
+  }
 
   const onGoogle = (ev) => {
     ev.preventDefault();
@@ -107,7 +114,9 @@ function Login() {
           ))}
         </div>
       )}
-      {loading && <Spinner/>}
+      {success && <Success message={success} />}
+
+      {loading && <Spinner />}
       <div className="w-full flex justify-center items-center">
         <div className="w-2/6 h-auto p-6 bg-white rounded-lg shadow flex-col justify-center items-center inline-flex gap-4">
           {/* Title & Description form */}
@@ -124,7 +133,7 @@ function Login() {
                 <input
                   value={credentials.email}
                   onChange={(ev) =>
-                    setCredentials({ ...credentials, email: ev.target.value })
+                    _setCredentials({ ...credentials, email: ev.target.value })
                   }
                   placeholder="Email"
                   className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
@@ -132,12 +141,13 @@ function Login() {
                 <input
                   value={credentials.password}
                   onChange={(ev) =>
-                    setCredentials({
+                    _setCredentials({
                       ...credentials,
                       password: ev.target.value,
                     })
                   }
                   placeholder="Password"
+                  type="password"
                   className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
                 />
               </div>
