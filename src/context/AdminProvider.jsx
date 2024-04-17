@@ -6,6 +6,9 @@ const AdminContext = createContext({
     _setAdmin: () => {},
     admins: [],
     _setAdmins: () => {},
+    adminForm: null,
+    _setAdminForm: () => {},
+    _restAdminForm: () => {}
 })
 
 // eslint-disable-next-line react/prop-types
@@ -27,6 +30,30 @@ export const AdminProvider = ({ children }) => {
     const _setAdmins = (datas) =>{
         setAdmins(datas)
     }
+
+    const [adminForm,setAdminForm] = useState({
+        id:null,
+        lastname:"",
+        firstname:"",
+        email:"",
+        phone:"",
+        password:"",
+        confirm_password:""
+    })
+    const _setAdminForm = (data) =>{
+        setAdminForm(data)
+    }
+    const _restAdminForm = () => {
+        setAdminForm({
+            id: null,
+            lastname: "",
+            firstname: "",
+            phone: "",
+            email: "",
+            password: "",
+            confirm_password: "",
+        });
+    }
     
 
     return (
@@ -34,7 +61,10 @@ export const AdminProvider = ({ children }) => {
             _setAdmin,
             _setAdmins,
             admin,
-            admins
+            admins,
+            adminForm,
+            _setAdminForm,
+            _restAdminForm
         }}>
             {children}
         </AdminContext.Provider>

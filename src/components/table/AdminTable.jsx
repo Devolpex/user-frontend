@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react'
 import TableSpinner from '../spinner/TableSpinner';
 import { Link } from 'react-router-dom';
@@ -9,6 +10,7 @@ const headerTable = [
     "Create At",
     "Actions",
   ];
+// eslint-disable-next-line react/prop-types
 function AdminTable({ admins, loading, onDeleteClick }) {
   return (
     <div className=" bg-white rounded-2xl shadow p-8 animated fadeInDown w-full">
@@ -34,8 +36,9 @@ function AdminTable({ admins, loading, onDeleteClick }) {
         {!loading && (
           <tbody className="">
             {!loading &&
+              // eslint-disable-next-line react/prop-types
               admins.map((a, index) => (
-                <tr key={a.id} className="">
+                <tr key={a.id} className="" >
                   <td className="">
                     <div className="flex justify-start items-center">
                       <img
@@ -54,7 +57,7 @@ function AdminTable({ admins, loading, onDeleteClick }) {
                   <td>{a.user.created_at}</td>
                   <td className="flex items-center">
                     <Link
-                      to={"/admins/update/" + a.user.id}
+                      to={"/admins/update/" + a.id}
                       className="w-auto px-3.5 py-2 mr-2 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 rounded-lg shadow justify-center items-center gap-2 flex"
                     >
                       <div className="text-white text-xs font-bold font-['Roboto'] uppercase leading-[18px]">

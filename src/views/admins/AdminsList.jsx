@@ -1,14 +1,14 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import ConfirmNotification from "../../components/notifications/ConfirmNotification";
 import { useStateContext } from "../../context/ContextProvider";
 import Success from "../../components/alert/Success";
 import Header from "../../components/header/Header";
-import SearchInput from "../../components/inputs/SearchInput";
 import { Link } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
 import axiosClient from "../../api/axios";
-import { AdminProvider, useAdminContext } from "../../context/AdminProvider";
 import AdminTable from "../../components/table/AdminTable";
+import { useAdminContext } from "../../context/AdminProvider";
 
 function AdminsList() {
   const { success,_setSuccess } = useStateContext();
@@ -16,6 +16,7 @@ function AdminsList() {
   //current page and total pages is used for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(5);
+  // eslint-disable-next-line no-unused-vars
   const carouselPages = 5;
   // Delete notification state and functions
   const [confirmNotification, setConfirmNotification] = useState(false);
@@ -34,7 +35,6 @@ function AdminsList() {
     axiosClient
       .get(`/admins?page=${page}`)
       .then(({ data }) => {
-        console.log("Admins Data", data);
         _setAdmins(data.admins);
         setLoading(false);
         setTotalPages(data.totalPages);
@@ -77,7 +77,7 @@ function AdminsList() {
     <div className="w-full flex flex-col justify-center items-center gap-8">
       {confirmNotification && (
         <ConfirmNotification
-          message={"You are sure you want to delete this client?"}
+          message={"You are sure you want to delete this Admin?"}
             onCancel={handleCancel}
             onConfirm={handleConfirm}
         />
