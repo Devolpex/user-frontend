@@ -20,7 +20,7 @@ function AdminsList() {
   const carouselPages = 5;
   // Delete notification state and functions
   const [confirmNotification, setConfirmNotification] = useState(false);
-  const [deleteClientId, setDeleteClientId] = useState(null);
+  const [deleteAdminId, setDeleteAdminId] = useState(null);
   const [loading, setLoading] = useState(false);
   
   useEffect(() => {
@@ -47,7 +47,7 @@ function AdminsList() {
 
   const handleConfirm = () => {
     setConfirmNotification(false);
-    deleteClient(deleteClientId);
+    deleteClient(deleteAdminId);
   };
 
 
@@ -58,7 +58,7 @@ function AdminsList() {
 
   const onDeleteClick = (id) => {
     setConfirmNotification(true);
-    setDeleteClientId(id);
+    setDeleteAdminId(id);
   };
 
   const deleteClient = (id) => {
