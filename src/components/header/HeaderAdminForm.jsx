@@ -10,7 +10,7 @@ function HeaderAdminForm({idAdmin}) {
       <div className="text-black text-5xl font-bold font-['Roboto'] leading-[62.40px]">
         {idAdmin&& (
           <h1>
-            Update Admin:  {adminForm.first_name} {adminForm.last_name}{" "}
+            Update Admin:  {adminForm.firstname} {adminForm.lastname}{" "}
           </h1>
         )}
         {!idAdmin && <h1>New Admin</h1>}

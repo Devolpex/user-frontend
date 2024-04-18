@@ -13,7 +13,7 @@ function HeaderClientForm({idClient}) {
       <div className="text-black text-5xl font-bold font-['Roboto'] leading-[62.40px]">
         {idClient && (
           <h1>
-            Update Client:  {client.first_name} {client.last_name}{" "}
+            Update Client:  {client.firstname} {client.lastname}{" "}
           </h1>
         )}
         {!idClient && <h1>New Client</h1>}

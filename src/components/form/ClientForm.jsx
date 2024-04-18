@@ -15,6 +15,14 @@ function ClientForm({idClient}) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (idClient){
+      getClientById(idClient);
+    }
+    _restClient();
+
+  },[idClient]);
+
   const onSubmit = (ev) => {
     ev.preventDefault();
     const payload = { ...client };
@@ -49,11 +57,27 @@ function ClientForm({idClient}) {
 
   const putClient = (id, payload) => {
     axiosClient
-      .put(`/client/${id}`, payload)
+      .put(`/clients/${id}`, payload)
       .then(({ data }) => {
+        console.log("Put Client Data", data);
         _setSuccess(data.success);
-        navigate("/clients");
+        navigate(data.redirectTo);
         _restClient();
+        setLoading(false);
+      })
+      .catch((err) => {
+        setErrors(err.response.data.errors);
+        setLoading(false);
+      });
+  };
+
+  const getClientById = (id) => {
+    axiosClient
+      .get(`/clients/${id}`)
+      .then(({ data }) => {
+        console.log("Get Client Data", data);
+        _restClient();
+        _setClient(data.user);
         setLoading(false);
       })
       .catch((err) => {
@@ -88,7 +112,7 @@ function ClientForm({idClient}) {
           <div className="grid grid-colms-1 gab-8 ">
             <div className="flex flex-col justify-center items-center gap-2">
               <input
-                value={client.first_name}
+                value={client.firstname}
                 onChange={(ev) =>
                   _setClient({ ...client, firstname: ev.target.value })
                 }
@@ -96,7 +120,7 @@ function ClientForm({idClient}) {
                 className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
               />
               <input
-                value={client.last_name}
+                value={client.lastname}
                 onChange={(ev) =>
                   _setClient({ ...client, lastname: ev.target.value })
                 }
@@ -110,6 +134,7 @@ function ClientForm({idClient}) {
               onChange={(ev) =>
                 _setClient({ ...client, email: ev.target.value })
               }
+              disabled={idClient}
               placeholder="Email"
               className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
             />
