@@ -39,11 +39,11 @@ function ClientTable({ clients, loading, onDeleteClick }) {
             </tr>
           </tbody>
         )}
-        {!loading && (
-          <tbody className="">
-            {!loading &&
-              // eslint-disable-next-line react/prop-types
-              clients.map((c, index) => (
+        {!loading ? (
+          // eslint-disable-next-line react/prop-types
+          clients && clients.length > 0 ? (
+            <tbody className="">
+              {clients.map((c, index) => (
                 <tr key={c.id} className="">
                   <td>
                     {" "}
@@ -102,8 +102,17 @@ function ClientTable({ clients, loading, onDeleteClick }) {
                   </td>
                 </tr>
               ))}
-          </tbody>
-        )}
+            </tbody>
+          ) : (
+            <tbody>
+              <tr>
+                <td colSpan="7" className="text-center">
+                  No clients available
+                </td>
+              </tr>
+            </tbody>
+          )
+        ) : null}
       </table>
     </div>
   );

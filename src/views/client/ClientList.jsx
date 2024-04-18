@@ -97,8 +97,10 @@ function ClientList() {
       handleGetClients(currentPage);
       return;
     }
+    setCurrentPage(1);
     setLoading(true);
     searchClient(searchTerm);
+    // console.log("Search:", searchTerm);
   };
 
   // API functions
@@ -146,9 +148,10 @@ function ClientList() {
    */
   const searchClient = (term) => {
     axiosClient
-      .delete(`/clients/search/${term}`)
-      .then((data) => {
-        _setClients(data.clients);
+      .get(`/clients/search?search=${term}&page=${currentPage}`)
+      .then(({data}) => {
+        _setClients(data.content);
+        console.log("Clients search",data);
         setLoading(false);
         setTotalPages(data.totalPages);
       })
