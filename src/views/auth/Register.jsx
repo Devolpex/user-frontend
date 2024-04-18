@@ -24,12 +24,15 @@ function Register() {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState();
   // import the function _setSuccess from the context
-  const { _setSuccess ,_setToken} = useStateContext();
+  const { _setSuccess ,_setToken,_setRole} = useStateContext();
   /**
    * useNavigate is a function from react-router-dom
    * used to redirect to another page
    */
   const navigate = useNavigate();
+  setTimeout(() => {
+    setErrors(null);
+  }, 10000);
 
   // When the button submit this function sent request into the api and get the response
   const onSubmit = (ev) => {
@@ -67,14 +70,16 @@ function Register() {
        * You can retrieve this message from the context.
        */
       _setSuccess(data.success);
-      _setToken(data.token)
+      _setToken(data.token);
+      _setRole(data.role);
       // /client is the routes of client list page in frontend check /src/routes/routes.jsx file
-      navigate("/clients");
+      navigate(data.redirectTo);
       setLoading(false);
       // console.log("Response", response);
     })
     .catch((err) => {
       setErrors(err.response.data.errors);
+      setLoading(false);
       // console.log("Error",err.response.data.errors);
     });
 
@@ -91,24 +96,9 @@ function Register() {
     // Handle Facebook API here
   };
 
-  /**
-   *   Response format:
-   *   Check the file /test/json/
-   *   for all the response formats
-   */
 
-  /**
-   * Tests Functions
-   * test only one at time
-   */
 
-  // useEffect(() => {
-  //   setErrors(registerErrors.errors);
-  // }, [registerErrors]);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  // }, []);
+ 
 
   return (
     <>
@@ -135,7 +125,7 @@ function Register() {
               <div id="inputs">
                 <div className="grid grid-cols-2 justify-items-center content-center gap-2">
                   <input
-                    value={client.first_name}
+                    value={client.firstname}
                     onChange={(ev) =>
                       setClient({ ...client, firstname: ev.target.value })
                     }
@@ -143,7 +133,7 @@ function Register() {
                     className="mb-4 outline-none bg-white w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-base transition duration-300 focus:border-gray-600"
                   />
                   <input
-                    value={client.last_name}
+                    value={client.lastname}
                     onChange={(ev) =>
                       setClient({ ...client, lastname: ev.target.value })
                     }

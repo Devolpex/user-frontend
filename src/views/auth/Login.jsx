@@ -71,6 +71,7 @@ function Login() {
     })
     .catch((err) => {
       setErrors(err.response.data.errors);
+      setLoading(false);
       // console.log("Error",err.response.data.errors);
     });
   }

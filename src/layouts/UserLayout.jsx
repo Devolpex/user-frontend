@@ -1,15 +1,18 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { useStateContext } from '../context/ContextProvider'
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 function UserLayout() {
     const {token} = useStateContext();
-    if (token === null) {
-        <Navigate to="/login" />;
+    if (!token ) {
+        return <Navigate to="/login" />;
     }
   return (
-    <div>UserLayout</div>
+    <div>
+      <h1>User Layout</h1>
+      <Outlet />
+    </div>
   )
 }
 

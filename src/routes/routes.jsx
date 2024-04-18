@@ -72,6 +72,16 @@ const routes = createBrowserRouter([
         ]
     },
     {
+        path: "/",
+        element: <UserLayout/>,
+        children: [
+            {
+                path: "/profile",
+                element: <Profile/>
+            }
+        ]
+    },
+    {
         path:"/",
         element:<AdminsLayout/>,
         children: [
@@ -88,17 +98,8 @@ const routes = createBrowserRouter([
                 element: <AdminManupilation key={"update"}/>
             }
         ]
-    },
-    {
-        path: "/",
-        element: <UserLayout/>,
-        children: [
-            {
-                path: "/profile",
-                element: <Profile/>
-            }
-        ]
     }
+
 ])
 
 export default routes;
