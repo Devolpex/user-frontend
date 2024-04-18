@@ -1,11 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useStateContext } from "../../context/ContextProvider";
 // import axiosClient from "../../api/axios.js";
-// import { useStateContext } from "../../context/ContextProvider.jsx";
+
 
 function Navbar() {
-  // const { setUser, user, _setToken, _setRole, userId } = useStateContext();
+  const {  _setToken, _setRole} = useStateContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,19 +16,18 @@ function Navbar() {
     // });
   }, []);
 
-  // const onLogout = (ev) => {
-  //   ev.preventDefault();
-  //   setUser({});
-  //   _setToken(null);
-  //   _setRole(null);
-  //   navigate("/login");
+  const onLogout = (ev) => {
+    ev.preventDefault();
+    _setToken(null);
+    _setRole(null);
+    navigate("/login");
 
-  //   // axiosClient.post("/logout").then(() => {
-  //   //   setUser({});
-  //   //   _setToken(null);
-  //   //   _setRole(null);
-  //   // });
-  // };
+    // axiosClient.post("/logout").then(() => {
+    //   setUser({});
+    //   _setToken(null);
+    //   _setRole(null);
+    // });
+  };
 
   return (
     <header className="h-20 px-16 bg-white shadow-md flex justify-end items-center">
@@ -48,7 +48,7 @@ function Navbar() {
           </div>
         </div>
         <button
-          // onClick={onLogout}
+          onClick={onLogout}
           className="w-[75px] px-3.5 py-2 bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-lg shadow flex justify-center items-center gap-2"
         >
           <div className="text-white text-xs font-bold font-['Roboto'] uppercase leading-[18px]">

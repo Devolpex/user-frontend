@@ -18,14 +18,17 @@ function ClientList() {
   const [loading, setLoading] = useState(false);
 
   //current page and total pages is used for pagination
-  const [currentPage, setCurrentPage] = useState(3);
-  const [totalPages, setTotalPages] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   // eslint-disable-next-line no-unused-vars
   const carouselPages = 5;
 
   // Delete notification state and functions
   const [confirmNotification, setConfirmNotification] = useState(false);
   const [deleteClientId, setDeleteClientId] = useState(null);
+  useEffect(() => {
+    handleGetClients(currentPage);
+  },[currentPage]);
 
   /**
    * This function is used to handle the confirm notification.
@@ -98,20 +101,12 @@ function ClientList() {
     searchClient(searchTerm);
   };
 
-  // Test Data Functions
-
-  // Get Clients
-  useEffect(() => {
-    _setClients(clientInfos);
-  }, [clientInfos, _setClients]);
-  // console.log("Client Infos", clients);
-
   // API functions
   const getClients = (page) => {
     axiosClient
-      .get(`/clinets?page=${page}`)
+      .get(`/clients?page=${page}`)
       .then(({ data }) => {
-        // console.log("Clients", data);
+        console.log(data);
         _setClients(data.clients);
         setLoading(false);
         setTotalPages(data.totalPages);
@@ -133,9 +128,9 @@ function ClientList() {
   const deleteClient = (id) => {
     axiosClient
       .delete(`/clients/${id}`)
-      .then(() => {
+      .then(({data}) => {
         handleGetClients(currentPage);
-        _setSuccess("Client deleted successfully");
+        _setSuccess(data.success);
       })
       .catch((error) => {
         console.error(error);
