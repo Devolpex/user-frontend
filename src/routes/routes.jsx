@@ -15,6 +15,16 @@ import UserLayout from "../layouts/UserLayout";
 import AdminsLayout from "../layouts/AdminsLayout";
 import AdminsList from "../views/admins/AdminsList";
 import AdminManupilation from "../views/admins/AdminManupilation";
+import CategoryLayout from "../layouts/CategoryLayout";
+
+import CategoriesPage from "../views/category/CategoriesPage";
+import CategoriesManipulation from "../views/category/CategoriesManipulation";
+import OneCategoryPage from "../views/category/OneCategoryPage";
+import ProductLyout from "../layouts/ProductLyout";
+import ProductsPage from "../views/product/ProductsPage";
+import ProductsManipulation from "../views/product/ProductsManipulation";
+import OneProductPage from "../views/product/OneProductPage";
+
 
 
 const routes = createBrowserRouter([
@@ -98,7 +108,53 @@ const routes = createBrowserRouter([
                 element: <AdminManupilation key={"update"}/>
             }
         ]
-    }
+    },
+    {
+        path: "/",
+        element: <CategoryLayout/>,
+        children: [
+            {
+                path: "/categories",
+                element: <CategoriesPage/>
+            },
+            {
+                path: "/categories/new",
+                element: <CategoriesManipulation key={"New Category"}/>
+            
+            },
+            {
+                path: "/categories/:id",
+                element: <OneCategoryPage/>
+            },
+            {
+                path: "/categories/update/:id",
+                element: <CategoriesManipulation key={"Update Category"}/>
+            },
+        ]
+    },
+    {
+        path: "/",
+        element: <ProductLyout/>,
+        children: [
+            {
+                path: "/products",
+                element: <ProductsPage/>
+            },
+            {
+                path: "/products/new",
+                element: <ProductsManipulation key={"New Product"}/>
+            
+            },
+            {
+                path: "/products/:id",
+                element: <OneProductPage/>
+            },
+            {
+                path: "/products/update/:id",
+                element: <ProductsManipulation key={"Update Product"}/>
+            },
+        ]
+    },
 
 ])
 
