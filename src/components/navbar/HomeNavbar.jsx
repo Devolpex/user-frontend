@@ -27,7 +27,7 @@ function HomeNavbar() {
             </li>
             <li className="block p-1 font-sans text-sm antialiased font-medium leading-normal text-blue-gray-900">
               <Link
-                to={"/#/product"}
+                to={"/products-page"}
                 className="flex items-center transition-colors hover:text-gray-700"
               >
                 Products

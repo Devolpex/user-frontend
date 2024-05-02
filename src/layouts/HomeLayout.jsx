@@ -6,10 +6,9 @@ import HomeNavbar from '../components/navbar/HomeNavbar'
 
 function HomeLayout() {
   return (
-    <div className="bg-light flex flex-col h-screen py-4">
-      
+    <div className="bg-light flex flex-col h-screen">
       <HomeNavbar />
-      <div className="w-full flex-1 flex justify-center items-center">
+      <div className="">
         <HomeProvider>
          <Outlet />
         </HomeProvider>

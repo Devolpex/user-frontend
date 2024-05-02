@@ -25,6 +25,7 @@ import ProductsManipulation from "../views/product/ProductsManipulation";
 import OneProductPage from "../views/product/OneProductPage";
 import HomeLayout from "../layouts/HomeLayout";
 import Home from "../views/home/Home";
+import Products from "../views/home/Products";
 
 
 
@@ -42,6 +43,10 @@ const routes = createBrowserRouter([
                 path: "/home",
                 element: <Navigate to="/" />
             },
+            {
+                path:"/products-page",
+                element: <Products/>
+            }
         ]
     },
 
