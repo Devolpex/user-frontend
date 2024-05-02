@@ -4,7 +4,7 @@ import { useStateContext } from "../../context/ContextProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import ConfirmNotification from "../notifications/ConfirmNotification";
 import { Spinner } from "@material-tailwind/react";
-import boxEmptyImage  from "../../assets/images/box-empty.webp";
+import boxEmptyImage from "../../assets/images/box-empty.webp";
 
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
@@ -15,8 +15,7 @@ function ProductImageFrom() {
   //   const { imageInput, _setImageInput } = useClientContext();
   const { id } = useParams();
 
-  const {_setImage,productForm}= useProductContext();
-  
+  const { _setImage, productForm } = useProductContext();
 
   const [confirmNotification, setConfirmNotification] = useState(false);
   const { _setSuccess } = useStateContext();
@@ -42,7 +41,7 @@ function ProductImageFrom() {
     setConfirmNotification(false);
     setLoading(true);
 
-    console.log("Payload Profile Picture : ", productForm.image );
+    console.log("Payload Profile Picture : ", productForm.image);
 
     // _setSuccess("Image saved successfully");
   };
@@ -69,19 +68,19 @@ function ProductImageFrom() {
    * The API return respone jsone with the success message.
    * {"succed":"Image saved successfully"}
    */
-//   const postImage = async (payload) => {
-//     axiosClient
-//       .post(`/clients/profile-picture?id=${idClient}`, payload)
-//       .then(({ data }) => {
-//         setLoading(false);
-//         _setSuccess(data.success);
-//         navigate("/clients");
-//       })
-//       .catch((err) => {
-//         setErrors(err.response.data.errors);
-//         setLoading(false);
-//       });
-//   };
+  //   const postImage = async (payload) => {
+  //     axiosClient
+  //       .post(`/clients/profile-picture?id=${idClient}`, payload)
+  //       .then(({ data }) => {
+  //         setLoading(false);
+  //         _setSuccess(data.success);
+  //         navigate("/clients");
+  //       })
+  //       .catch((err) => {
+  //         setErrors(err.response.data.errors);
+  //         setLoading(false);
+  //       });
+  //   };
 
   return (
     <div className="bg-white rounded-lg shadow-md p-5 mb-4 mt-2 grid min-h-[140px] w-1/3 place-items-center overflow-x-scroll lg:overflow-visible">
@@ -97,8 +96,8 @@ function ProductImageFrom() {
         <img
           className="object-cover object-center rounded-full h-96 w-96"
           src={productForm.image || boxEmptyImage}
-          alt="nature image"
         />
+
         <div className="flex justify-center items-center gap-2">
           <label htmlFor="profile-image" className="cursor-pointer ml-3">
             <FaEdit className="w-6 h-6 text-green-600" />

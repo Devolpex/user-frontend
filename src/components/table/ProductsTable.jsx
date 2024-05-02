@@ -8,6 +8,7 @@ const headerTable = [
     "Description",
     "price",
     "Category",
+    "Quantity",
     "Actions",
   ];
 // eslint-disable-next-line react/prop-types
@@ -55,6 +56,7 @@ function ProductsTable({ products, loading, onDeleteClick }) {
                   <td>{p.price}</td>
 
                   <td>{p.categoryName}</td>
+                  <td>{p.quantity}</td>
                   <td className="flex items-center">
                     <Link
                       to={"/products/update/" + p.id}
