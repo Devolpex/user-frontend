@@ -1,6 +1,5 @@
 
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import Home from "../views/Home";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../views/auth/Login";
 import CodeValidation from "../views/auth/CodeValidation";
@@ -24,18 +23,28 @@ import ProductLyout from "../layouts/ProductLyout";
 import ProductsPage from "../views/product/ProductsPage";
 import ProductsManipulation from "../views/product/ProductsManipulation";
 import OneProductPage from "../views/product/OneProductPage";
+import HomeLayout from "../layouts/HomeLayout";
+import Home from "../views/home/Home";
 
 
 
 const routes = createBrowserRouter([
     {
         path: "/",
-        element: <Home />
+        element: <HomeLayout />
+        ,
+        children: [
+            {
+                path: "/",
+                element: <Home />
+            },
+            {
+                path: "/home",
+                element: <Navigate to="/" />
+            },
+        ]
     },
-    {
-        path: "/home",
-        element: <Navigate to="/" />
-    },
+
     {
         path: "/",
         element: <AuthLayout />,

@@ -4,9 +4,8 @@ import TableSpinner from '../spinner/TableSpinner';
 import { Link } from 'react-router-dom';
 
 const headerTable = [
-    "Product",
+    "Category",
     "Description",
-    "Products",
     "Actions",
   ];
 // eslint-disable-next-line react/prop-types
@@ -46,7 +45,6 @@ function CategoryTable({ categories, loading, onDeleteClick }) {
                     </div>
                   </td>
                   <td>{c.description} ...</td>
-                  <td>{c.products}</td>
                   <td className="flex items-center">
                     <Link
                       to={"/categories/update/" + c.id}

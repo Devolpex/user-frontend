@@ -6,8 +6,11 @@ import { BiUser } from "react-icons/bi";
 import { GoOrganization } from "react-icons/go";
 import { SiAwsorganizations } from "react-icons/si";
 import { MdWork } from "react-icons/md";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 import { PiUsersFourFill } from "react-icons/pi";
 import MenuLink from "../menu/MenuLink";
+import { FaShopify } from "react-icons/fa6";
+
 
 // import { useStateContext } from "../../context/ContextProvider";
 
@@ -59,24 +62,18 @@ function Sidebar() {
           icon={<PiUsersFourFill color="white" />}
           top_vl="40px"
         />
-        {/* <MenuLink
-          route="/companies"
-          label="Companies"
-          icon={<GoOrganization color="white" />}
+        <MenuLink
+          route="/products"
+          label="Products"
+          icon={<FaShopify color="white" />}
           top_vl="40px"
         />
         <MenuLink
-          route="/departes"
-          label="Departes"
-          icon={<SiAwsorganizations color="white" />}
+          route="/categories"
+          label="Categories"
+          icon={<BiSolidCategoryAlt color="white" />}
           top_vl="40px"
         />
-        <MenuLink
-          route="/jobs"
-          label="Jobs"
-          icon={<MdWork color="white" />}
-          top_vl="40px"
-        /> */}
       </>
     </aside>
   );

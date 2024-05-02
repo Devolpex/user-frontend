@@ -6,6 +6,7 @@ import axiosClient from "../../api/axios";
 import Spinner from "../spinner/Spinner";
 import Error from "../alert/Error";
 import { useCategoryContext } from "../../context/CategoryProvider";
+import productService from '../../services/productService';
 
 // eslint-disable-next-line react/prop-types
 function CategoryForm({idCategory}) {
@@ -26,7 +27,7 @@ function CategoryForm({idCategory}) {
     console.log("payload", payload);
     setLoading(true);
     if (idCategory) {
-      // putCategory(idCategory, payload);
+      putCategory(idCategory, payload);
     } else {
       postCategory(payload);
     }
@@ -41,7 +42,7 @@ function CategoryForm({idCategory}) {
 
   // API Functions
   const postCategory = (payload) => {
-    axiosClient
+    productService
       .post("/categories", payload)
       .then(({ data }) => {
         _setSuccess(data.success);
@@ -57,7 +58,7 @@ function CategoryForm({idCategory}) {
   };
 
   const putCategory = (id, payload) => {
-    axiosClient
+    productService
       .put(`/categories/${id}`, payload)
       .then(({data}) => {
         console.log("Update Admin Data", data);
@@ -74,7 +75,7 @@ function CategoryForm({idCategory}) {
       });
   };
   const getCategoryById = (id) => {
-    axiosClient
+    productService
       .get(`/categories/${id}`)
       .then(({ data }) => {
         _resetCategoryForm()
