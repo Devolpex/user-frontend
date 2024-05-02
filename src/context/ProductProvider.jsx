@@ -6,7 +6,13 @@ const ProductContext = createContext({
     productForm: {},
     _setProductForm: () => {},
     _resetProductForm: () => {},
-    _setImage: () => {}
+    _setImage: () => {},
+    categories: [],
+    _setCategories: () => {},
+    loading: false,
+    _setLoading: () => {},
+    errors: [],
+    _setErrors: () => {},
 });
 
 export const ProductProvider = ({ children }) => {
@@ -16,6 +22,7 @@ export const ProductProvider = ({ children }) => {
         name: "",
         price: "",
         description: "",
+        quantity:null,
         categoryName: "",
         categoryId: null,
         image: "",
@@ -49,8 +56,20 @@ export const ProductProvider = ({ children }) => {
         }));
     };
 
+    const [categories, setCategories] = useState([]);
+    const _setCategories = (categories) => {
+        setCategories(categories);
+    }
 
+    const [loading, setLoading] = useState(false);
+    const _setLoading = (loading) => {
+        setLoading(loading);
+    }
 
+    const [errors, setErrors] = useState([]);
+    const _setErrors = (errors) => {
+        setErrors(errors);
+    }
 
 
     return (
@@ -61,7 +80,14 @@ export const ProductProvider = ({ children }) => {
                 productForm,
                 _setProductForm,
                 _resetProductForm,
-                _setImage
+                _setImage,
+                categories,
+                _setCategories,
+
+                loading,
+                _setLoading,
+                errors,
+                _setErrors,
             }}
         >
             {children}
