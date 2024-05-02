@@ -19,7 +19,19 @@ function AuthNavbar() {
   const { buttonText, route } = getButtonInfo();
 
   return (
-    <div className="w-full h-20 relative bg-white shadow flex justify-end items-center p-8">
+    <div className="w-full h-20 relative bg-white shadow flex justify-end items-center p-8 gap-8">
+      <Link
+        to={"/"}
+        className="flex items-center transition-colors hover:text-gray-700"
+      >
+        Home
+      </Link>
+      <Link
+        to={"/#/product"}
+        className="flex items-center transition-colors hover:text-gray-700"
+      >
+        Products
+      </Link>
       <Link
         className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
         to={route}

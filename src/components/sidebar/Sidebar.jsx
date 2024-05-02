@@ -10,6 +10,7 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import { PiUsersFourFill } from "react-icons/pi";
 import MenuLink from "../menu/MenuLink";
 import { FaShopify } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
 
 
 // import { useStateContext } from "../../context/ContextProvider";
@@ -51,10 +52,16 @@ function Sidebar() {
       )} */}
       <>
         <MenuLink
+          route="/"
+          label="Home"
+          icon={<FaHome color="white" />}
+          top_vl="0"
+        />
+        <MenuLink
           route="/admins"
           label="Admins"
           icon={<BiUser color="white" />}
-          top_vl="0"
+          top_vl="40px"
         />
         <MenuLink
           route="/clients"
