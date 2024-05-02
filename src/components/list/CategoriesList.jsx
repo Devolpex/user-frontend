@@ -1,34 +1,45 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect } from "react";
-import { useHomeContext } from "../../context/HomeProvider";
 import productService from "../../services/productService";
 import Button from "../buttons/Button";
+import { useProductClientContext } from "../../context/ProductClientProvider";
 
 function CategoriesList() {
+
+
   const {
-    _setCategoriesList,
     categoriesList,
-    _setCurrentPage,
-    _setTotalPages,
-    currentPage,
-    totalPages,
+    currentCategoryPage,
+    totalCategoryPages,
     selectedCategory,
-    _setSelectedCategory,
-  } = useHomeContext();
+
+    updateCurrentCategoryPage,
+    updateTotalCategoryPages,
+    updateCategoriesList,
+    updateSelectedCategory,
+
+    resetProducts,
+    updateCurrentProductPage,
+  } = useProductClientContext();
 
   useEffect(() => {
-    getCategoryListApi(currentPage);
-  }, [currentPage, totalPages]);
+    getCategoryListApi(currentCategoryPage);
+  }, [
+    currentCategoryPage,
+    selectedCategory,
+    totalCategoryPages,
+  ]);
 
   const getCategoryListApi = (page) => {
     productService
       .get(`/categories/categories-pagination-client?page=${page}`)
       .then(({ data }) => {
         if (page === 1) {
-          _setCategoriesList(data.category);
+          updateCategoriesList(data.category);
         } else {
-          _setCategoriesList([...categoriesList, ...data.category]);
+          updateCategoriesList([...categoriesList, ...data.category]);
         }
-        _setTotalPages(data.totalPages);
+        updateTotalCategoryPages(data.totalPages);
       })
       .catch(() => {
         // Handle error
@@ -36,15 +47,19 @@ function CategoriesList() {
   };
 
   const handleMoreCategoriesClick = () => {
-    if (currentPage < totalPages) {
-      _setCurrentPage(currentPage + 1);
-      getCategoryListApi(currentPage + 1);
+    if (currentCategoryPage < totalCategoryPages) {
+      updateCurrentCategoryPage(currentCategoryPage + 1);
+      getCategoryListApi(currentCategoryPage + 1);
     }
   };
 
   const handleCategoryClick = (category) => {
-    _setSelectedCategory(category);
-    console.log("Catagory ID Selected: ", selectedCategory);
+    // resetProducts();
+    updateSelectedCategory(category);
+    updateCurrentProductPage(1);
+    
+    resetProducts();
+    console.log("Catagory ID Selected: ", category);
   };
 
   return (
@@ -64,20 +79,20 @@ function CategoriesList() {
         {categoriesList.length > 0 &&
           categoriesList.map((category) => (
             <button
-            key={category.id}
-            role="button"
-            className={`flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start ${
-              selectedCategory === category.id
-                ? "bg-black text-white"
-                : "hover:bg-zinc-300 hover:bg-opacity-50 active:bg-zinc-400 active:bg-opacity-50"
-            }`}
-            onClick={() => handleCategoryClick(category.id)}
+              key={category.id}
+              role="button"
+              className={`flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start ${
+                selectedCategory === category.id
+                  ? "bg-black text-white"
+                  : "hover:bg-zinc-300 hover:bg-opacity-50 active:bg-zinc-400 active:bg-opacity-50"
+              }`}
+              onClick={() => handleCategoryClick(category.id)}
             >
               {category.name}
             </button>
           ))}
 
-        {currentPage < totalPages && ( // Render "More Categories" button only if there are more pages
+        {currentCategoryPage < totalCategoryPages && ( // Render "More Categories" button only if there are more pages
           <Button
             text={"More Categories"}
             color={"gray"}

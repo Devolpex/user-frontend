@@ -1,18 +1,34 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect,useRef } from "react";
 import productService from "../../services/productService";
 import ProductCard from "../cards/ProductCard";
-import { useHomeContext } from "../../context/HomeProvider";
+import { useProductClientContext } from "../../context/ProductClientProvider";
 
 function ProductsList() {
+  // const {
+  //   products,
+  //   updateProducts,
+  //   selectedCategory,
+  //   _setSelectedCategory,
+  //   resetProducts
+    
+  // } = useHomeContext();
   const {
-    products,
-    updateProducts,
+    productsList,
+    currentProductPage,
+    totalProductPages,
     selectedCategory,
-    _setSelectedCategory,
-  } = useHomeContext();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
+
+    updateProductsList,
+    updateTotalProductPages,
+    updateCurrentProductPage,
+    resetProducts,
+    isLoading,
+    updateIsLoading,
+  } = useProductClientContext();
+
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1);
+  // const [loading, setLoading] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -22,9 +38,9 @@ function ProductsList() {
         window.innerHeight + window.scrollY >=
           containerRef.current.offsetTop + containerRef.current.offsetHeight
       ) {
-        if (currentPage < totalPages && !loading) {
-          setLoading(true); // Set loading state to true before fetching
-          setCurrentPage((prevPage) => prevPage + 1);
+        if (currentProductPage < totalProductPages && !isLoading) {
+          updateIsLoading(true); // Set loading state to true before fetching
+          updateCurrentProductPage((prevPage) => prevPage + 1);
         }
       }
     };
@@ -33,15 +49,15 @@ function ProductsList() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [currentPage, loading, totalPages, selectedCategory]);
+  }, [currentProductPage, isLoading, totalProductPages, selectedCategory]);
 
   useEffect(() => {
     if (selectedCategory === null) {
-      fetchAllProducts(currentPage);
+      fetchAllProducts(currentProductPage);
     } else {
-      fetchProductsByCategory(selectedCategory, currentPage);
+      fetchProductsByCategory(selectedCategory, currentProductPage);
     }
-  }, [currentPage, selectedCategory]);
+  }, [currentProductPage, selectedCategory]);
 
   const fetchAllProducts = (page) => {
     productService
@@ -51,7 +67,7 @@ function ProductsList() {
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false); // Set loading state to false if there's an error
+        updateIsLoading(false); // Set loading state to false if there's an error
       });
   };
 
@@ -63,20 +79,20 @@ function ProductsList() {
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false); // Set loading state to false if there's an error
+        updateIsLoading(false); // Set loading state to false if there's an error
       });
   };
 
   const handleFetchSuccess = (data, page) => {
     console.log(data);
     if (page === 1) {
-      updateProducts(data.products);
+      updateProductsList(data.products);
     } else {
-      updateProducts((prevProducts) => [...prevProducts, ...data.products]);
+      updateProductsList((prevProducts) => [...prevProducts, ...data.products]);
     }
-    setCurrentPage(data.currentPage);
-    setTotalPages(data.totalPages);
-    setLoading(false); // Set loading state to false after fetching
+    updateCurrentProductPage(data.currentPage);
+    updateCurrentProductPage(data.totalPages);
+    updateIsLoading(false); // Set loading state to false after fetching
   };
 
   return (
@@ -84,14 +100,14 @@ function ProductsList() {
       className="grid grid-cols-3 gap-4 justify-items-center content-center"
       ref={containerRef}
     >
-      {products.length === 0 ? (
+      {productsList.length === 0 ? (
         <p>No products found.</p>
       ) : (
-        products.map((product) => (
+        productsList.map((product) => (
           <ProductCard product={product} key={product.id} />
         ))
       )}
-      {loading && <p>Loading...</p>}
+      {isLoading && <p>Loading...</p>}
     </div>
   );
 }

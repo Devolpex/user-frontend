@@ -16,6 +16,7 @@ const HomeContext = createContext({
   _setSelectedCategory: () => {},
   updateProducts: () => {},
   products: [],
+  resetProducts: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
@@ -46,6 +47,10 @@ export const HomeProvider = ({ children }) => {
     setProducts(newProducts);
   };
 
+  const resetProducts = () => {
+    setProducts([]);
+  };
+
   return (
     <HomeContext.Provider
       value={{
@@ -61,6 +66,7 @@ export const HomeProvider = ({ children }) => {
         _setSelectedCategory,
         updateProducts,
         products,
+        resetProducts,
       }}
     >
       {children}
