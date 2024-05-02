@@ -14,23 +14,37 @@ const HomeContext = createContext({
   _setTotalPages: () => {},
   selectedCategory: null,
   _setSelectedCategory: () => {},
+  updateProducts: () => {},
+  products: [],
 });
 
 // eslint-disable-next-line react/prop-types
 export const HomeProvider = ({ children }) => {
+  // Categories List Provider
   const [categoriesList, setCategoriesList] = useState([]);
   const _setCategoriesList = (categories) => setCategoriesList(categories);
+
+  // Products List Provider
   const [productsList, setProductsList] = useState([]);
   const _setProductsList = (products) => setProductsList(products);
 
+  // Current Page Provider
   const [currentPage, setCurrentPage] = useState(1);
   const _setCurrentPage = (page) => setCurrentPage(page);
 
+  // Total Pages Provider
   const [totalPages, setTotalPages] = useState(null);
   const _setTotalPages = (pages) => setTotalPages(pages);
 
+  // Selected Category Provider
   const [selectedCategory, setSelectedCategory] = useState(null);
   const _setSelectedCategory = (category) => setSelectedCategory(category);
+
+  // Update Products Provider
+  const [products, setProducts] = useState([]);
+  const updateProducts = (newProducts) => {
+    setProducts(newProducts);
+  };
 
   return (
     <HomeContext.Provider
@@ -45,6 +59,8 @@ export const HomeProvider = ({ children }) => {
         _setTotalPages,
         selectedCategory,
         _setSelectedCategory,
+        updateProducts,
+        products,
       }}
     >
       {children}

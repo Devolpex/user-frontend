@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import productService from "../../services/productService";
 import ProductCard from "../cards/ProductCard";
+import { useHomeContext } from "../../context/HomeProvider";
 
 function ProductsList() {
-  const [products, setProducts] = useState([]);
+  const {
+    products,
+    updateProducts,
+    selectedCategory,
+    _setSelectedCategory,
+  } = useHomeContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -27,25 +33,21 @@ function ProductsList() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [currentPage, loading, totalPages]);
+  }, [currentPage, loading, totalPages, selectedCategory]);
 
   useEffect(() => {
-    fetchAllProducts(currentPage);
-  }, [currentPage]);
+    if (selectedCategory === null) {
+      fetchAllProducts(currentPage);
+    } else {
+      fetchProductsByCategory(selectedCategory, currentPage);
+    }
+  }, [currentPage, selectedCategory]);
 
   const fetchAllProducts = (page) => {
     productService
       .get(`/products/client-side-pagination?page=${page}`)
       .then(({ data }) => {
-        console.log(data);
-        if (page === 1) {
-          setProducts(data.products);
-        } else {
-          setProducts((prevProducts) => [...prevProducts, ...data.products]);
-        }
-        setCurrentPage(data.currentPage);
-        setTotalPages(data.totalPages);
-        setLoading(false); // Set loading state to false after fetching
+        handleFetchSuccess(data, page);
       })
       .catch((err) => {
         console.log(err);
@@ -53,14 +55,42 @@ function ProductsList() {
       });
   };
 
+  const fetchProductsByCategory = (categoryId, page) => {
+    productService
+      .get(`/products/categoryId/${categoryId}?page=${page}`)
+      .then(({ data }) => {
+        handleFetchSuccess(data, page);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false); // Set loading state to false if there's an error
+      });
+  };
+
+  const handleFetchSuccess = (data, page) => {
+    console.log(data);
+    if (page === 1) {
+      updateProducts(data.products);
+    } else {
+      updateProducts((prevProducts) => [...prevProducts, ...data.products]);
+    }
+    setCurrentPage(data.currentPage);
+    setTotalPages(data.totalPages);
+    setLoading(false); // Set loading state to false after fetching
+  };
+
   return (
     <div
       className="grid grid-cols-3 gap-4 justify-items-center content-center"
       ref={containerRef}
     >
-      {products.map((product) => (
-        <ProductCard product={product} key={product.id} />
-      ))}
+      {products.length === 0 ? (
+        <p>No products found.</p>
+      ) : (
+        products.map((product) => (
+          <ProductCard product={product} key={product.id} />
+        ))
+      )}
       {loading && <p>Loading...</p>}
     </div>
   );

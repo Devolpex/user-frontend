@@ -44,6 +44,7 @@ function CategoriesList() {
 
   const handleCategoryClick = (category) => {
     _setSelectedCategory(category);
+    console.log("Catagory ID Selected: ", selectedCategory);
   };
 
   return (
