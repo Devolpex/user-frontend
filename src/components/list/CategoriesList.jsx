@@ -57,7 +57,6 @@ function CategoriesList() {
     // resetProducts();
     updateSelectedCategory(category);
     updateCurrentProductPage(1);
-    
     resetProducts();
     console.log("Catagory ID Selected: ", category);
   };
